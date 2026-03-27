@@ -8,6 +8,7 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+.tmpdeps/
 
 # Node.js / Next.js
 node_modules/
@@ -15,8 +16,10 @@ node_modules/
 out/
 
 # Data artifacts
-data/raw/
-data/interim/
+data/raw/*
+!data/raw/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
 *.parquet
 *.csv
 
