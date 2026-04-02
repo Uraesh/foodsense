@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from pathlib import Path
-
 from pipeline.reviews_polars import RAW_DATA_PATH, PROCESSED_DIR, cleaned_reviews_lazy
 
 
