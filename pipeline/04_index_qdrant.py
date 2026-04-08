@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 from typing import Iterable
+from uuid import NAMESPACE_URL, uuid5
 
 import polars as pl
 from qdrant_client.models import Distance, PointStruct, VectorParams
@@ -12,9 +13,10 @@ from pipeline.utils.qdrant_client import get_qdrant_client
 
 
 def iter_points(df: pl.DataFrame) -> Iterable[PointStruct]:
-    for idx, row in enumerate(df.iter_rows(named=True)):
+    for row in df.iter_rows(named=True):
+        product_id = row["ProductId"]
         payload = {
-            "product_id": row["ProductId"],
+            "product_id": product_id,
             "label_hint": row.get("label_hint"),
             "review_count": row.get("review_count"),
             "average_score": row.get("average_score"),
@@ -24,7 +26,7 @@ def iter_points(df: pl.DataFrame) -> Iterable[PointStruct]:
             "summary_samples": row.get("summary_samples"),
             "text_samples": row.get("text_samples"),
         }
-        yield PointStruct(id=idx, vector=row["embedding"], payload=payload)
+        yield PointStruct(id=str(uuid5(NAMESPACE_URL, product_id)), vector=row["embedding"], payload=payload)
 
 
 def parse_args() -> argparse.Namespace:
