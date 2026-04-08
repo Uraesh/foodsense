@@ -28,11 +28,18 @@ data/interim/*
 !data/interim/.gitkeep
 *.parquet
 *.csv
+embedding_status.json
+data/processed/embedding_manifest*.json
+data/processed/*.log
+evaluation/results/*.log
+evaluation/results/quality_suite_*.json
+evaluation/results/quality_suite_latest.json
 
 # Local vector DB / caches
 .qdrant/
 .cache/
 .ollama/
+.docker-client/
 
 # Notebook runtime
 .ipynb_checkpoints/

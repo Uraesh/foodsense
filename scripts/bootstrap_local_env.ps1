@@ -1,5 +1,6 @@
 param(
-    [switch]$Install
+    [switch]$Install,
+    [string]$PythonVersion = "3.12"
 )
 
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
@@ -27,7 +28,7 @@ foreach ($entry in $paths.GetEnumerator()) {
 }
 
 if (-not (Test-Path $VenvPath)) {
-    python -m venv $VenvPath
+    & py "-$PythonVersion" -m venv $VenvPath
 }
 
 $PythonExe = Join-Path $VenvPath "Scripts\\python.exe"
@@ -40,7 +41,7 @@ if ($Install) {
         & $PythonExe -m pip install -r $RequirementsPath
     }
     else {
-        python -m pip --python $PythonExe install -r $RequirementsPath
+        & py "-$PythonVersion" -m pip --python $PythonExe install -r $RequirementsPath
     }
 }
 
@@ -51,3 +52,4 @@ Write-Host "To activate it in the current shell, run:"
 Write-Host "  & `"$VenvPath\\Scripts\\Activate.ps1`""
 Write-Host "To install dependencies on D:, run:"
 Write-Host "  .\\scripts\\bootstrap_local_env.ps1 -Install"
+Write-Host "Python version target: $PythonVersion"

@@ -117,10 +117,6 @@ foodsense/
 
 Copier `.env.example` en `.env` puis renseigner les valeurs necessaires :
 
-```powershell
-Copy-Item .env.example .env
-```
-
 Variables principales :
 
 - `MISTRAL_API_KEY` : cle API de synthese.
@@ -163,6 +159,29 @@ python pipeline\04_index_qdrant.py
 
 ### Application complete
 
+Demarrage recommande sur Windows :
+
+```powershell
+.\scripts\start_docker_stack.ps1
+```
+
+Options utiles :
+
+- `.\scripts\start_docker_stack.ps1 -QdrantOnly`
+- `.\scripts\start_docker_stack.ps1 -IncludeUI`
+- `.\scripts\start_docker_stack.ps1 -IncludeData`
+- `.\scripts\start_docker_stack.ps1 -IncludeLLM`
+
+Ce script :
+
+- cree un `DOCKER_CONFIG` local dans le projet pour eviter les blocages sur `C:\Users\...\ .docker\config.json` ;
+- lance Docker Desktop si besoin ;
+- attend que le daemon soit pret ;
+- demarre automatiquement les services requis via `docker compose` ;
+- s'appuie directement sur `.env.example` pour le demarrage standard du stack.
+
+Commande compose directe si Docker est deja pret :
+
 ```powershell
 docker-compose up --build
 ```
@@ -196,3 +215,4 @@ Services attendus :
 - Connecter le frontend au backend.
 - Mettre en place l'evaluation semantique vs baseline keyword.
 - Stabiliser le demarrage par Docker pour la demo.
+- Suivre la checklist de cloture V1 / cadrage V2 dans `docs/V1_V2_checklist.md`.

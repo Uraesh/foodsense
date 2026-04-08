@@ -224,3 +224,132 @@ Les entrees ci-dessous entre le 27 mars 2026 et le 2 avril 2026 ont ete reconsti
 - finaliser la chaine `embeddings -> indexation Qdrant -> recherche backend` ;
 - brancher le frontend sur les vrais endpoints ;
 - preparer l'evaluation semantique vs baseline keyword.
+
+## 2026-04-05
+
+### Objectifs Du Jour
+- demarrer concretement la phase d'embeddings ;
+- installer et valider l'infrastructure locale Ollama + Qdrant ;
+- choisir un modele d'embedding compatible avec le francais et soutenable sur une machine limitee.
+
+### Realisations
+- activation effective de la virtualisation, de WSL et de Docker Desktop sur la machine Dell ;
+- lancement de Qdrant dans Docker et verification de son accessibilite locale ;
+- installation d'Ollama et telechargement des modeles `qwen3-embedding:0.6b` puis `bge-m3` ;
+- mesure pratique du temps d'embedding sur petits echantillons avec Qwen puis avec BGE-M3 ;
+- identification des erreurs `500` d'Ollama avec `bge-m3` sur des textes trop longs ;
+- ajout d'une troncation `max_chars=800` dans le pipeline d'embeddings pour stabiliser `bge-m3` ;
+- ajout d'un fichier de suivi `embedding_status.json` a la racine pour suivre l'avancement sans lire les logs ;
+- lancement d'un run de 3000 produits avec `bge-m3` en arriere-plan et logs dedies ;
+- optimisation locale legere en fermant quelques applications non essentielles pendant le run.
+
+### Decisions
+- conserver l'ancienne base / collection pour comparaison et ne pas ecraser les artefacts Qwen deja produits ;
+- utiliser `bge-m3` pour la suite car il est multilingue et plus pertinent pour des requetes en francais ;
+- garder une collection Qdrant distincte pour chaque modele d'embedding utilise ;
+- ne pas pousser les artefacts d'embedding locaux (`embedding_status.json`, manifests, logs, parquets de sortie) dans Git.
+
+### Blocages
+- l'executable Python du venv reste capricieux en lancement detache sous Windows, ce qui impose un contournement pour les longs runs en arriere-plan ;
+- des erreurs `500` surviennent encore ponctuellement sur certains produits, meme apres troncation, ce qui devra etre surveille dans le rapport final ;
+- l'indexation Qdrant n'a pas encore ete relancee sur la nouvelle sortie `bge-m3`.
+
+### Prochaines Etapes
+- laisser terminer le batch `bge-m3` sur 3000 produits ;
+- indexer les embeddings BGE dans une collection Qdrant dediee ;
+- comparer ensuite les comportements Qwen vs BGE-M3 sur quelques requetes de demonstration ;
+- pousser le code propre de la phase embeddings sur la branche `feature/embeddings-qdrant`.
+
+## 2026-04-05
+
+### Objectifs Du Jour
+- fiabiliser le backend de recherche ;
+- verifier le chemin complet `backend -> Ollama -> Qdrant` ;
+- renforcer les tests avant push sur la branche backend dediee.
+
+### Realisations
+- installation de `pytest` dans le `.venv` du projet ;
+- execution des tests backend et ajout de cas supplementaires pour `/favicon.ico`, `GET /search` et la strategie semantique ;
+- correction du backend pour accepter `GET /search` en plus du `POST` ;
+- ajout d'une route `GET /favicon.ico` pour eliminer les `404` parasites dans les logs ;
+- branchement du backend sur la collection Qdrant `foodsense_products_bge_m3` avec la bonne API SDK (`query_points`) ;
+- ajout d'un retry cote Ollama pour les embeddings de requete ;
+- amelioration de la reponse API avec `strategy` et `warning` afin de distinguer clairement recherche semantique et fallback lexical ;
+- verification manuelle que la collection Qdrant contient bien `3000` points et que la recherche semantique repond a nouveau quand Docker et Ollama sont correctement lances.
+
+### Decisions
+- pousser les corrections backend sur `feature/backend-search` plutot que sur `main` ;
+- garder le fallback lexical tant qu'Ollama peut encore etre instable localement ;
+- exposer explicitement la strategie utilisee dans la reponse API pour faciliter la demo et le debug.
+
+### Blocages
+- la stabilite d'Ollama reste sensible a l'etat memoire de la machine et peut provoquer des `500` transitoires ;
+- le depot local principal reste trop brouillon pour un push direct securise, ce qui impose un push via un clone temporaire propre.
+
+### Prochaines Etapes
+- pousser les correctifs backend sur la branche distante dediee ;
+- brancher le frontend sur le `/search` backend ;
+- evaluer quelques requetes de demo avec et sans fallback pour documenter les limites de la V1.
+
+## 2026-04-05
+
+### Objectifs Du Jour
+- clarifier la cloture de la V1 et les priorites de la V2 ;
+- relancer une evaluation propre de la recherche semantique avec les nouvelles metriques ;
+- verifier si le moteur semantique tient reellement en conditions locales actuelles.
+
+### Realisations
+- creation d'une checklist explicite V1 / V2 dans `docs/V1_V2_checklist.md` ;
+- ajout dans cette checklist d'un point important : enrichir ou remplacer le dataset actuel par un dataset avec de vraies colonnes produit en V2 ;
+- ajout egalement de l'idee d'une fonctionnalite d'assistance nutritionnelle basee sur des sources externes, clairement recadree comme piste V2 et non comme coeur de la V1 ;
+- mise a jour du `README` pour referencer la checklist ;
+- rerun du baseline lexical avec les nouvelles metriques : `avg_precision_at_k = 0.6667`, `success_rate_at_k = 0.75`, `mrr = 0.75` ;
+- rerun du rapport semantique avec les memes metriques ;
+- verification concrete que, dans l'etat actuel de la machine, le backend retombe integralement en `lexical_fallback` lors de l'evaluation semantique ;
+- diagnostic du blocage : les embeddings de requete `bge-m3` restent instables cote backend, avec des erreurs Ollama de type `500` et des indices memoire deja observes dans les logs (`unable to allocate CPU buffer`).
+
+### Decisions
+- ne pas presenter la fonctionnalite nutritionnelle guidee comme partie integrante de la V1 ;
+- considerer le remplacement ou l'enrichissement du dataset comme un axe V2 serieux et legitime ;
+- garder comme reference immediate pour la V1 une recherche semantique sur avis agreges, tout en documentant honnetement la limite d'instabilite locale d'Ollama.
+
+### Blocages
+- la couche Ollama repond bien en manuel dans certains cas, mais reste instable depuis le backend Python pour `bge-m3` ;
+- cela empeche, a cet instant precis, d'obtenir un rapport semantique purement `semantic_hybrid` stable sur l'ensemble du benchmark.
+
+### Prochaines Etapes
+- stabiliser l'embedding de requete en local ou choisir un compromis plus robuste pour la demo ;
+- rerun l'evaluation semantique des que le backend cesse de tomber en fallback ;
+- terminer le branchement frontend vers `/search` ;
+- figer les requetes de demo et les captures de la V1.
+
+## 2026-04-06
+
+### Objectifs Du Jour
+- sortir durablement du fallback lexical ;
+- verifier la recherche semantique sur des metriques propres et comparables ;
+- reduire la dependance immediate a Qdrant pour la demo V1 locale.
+
+### Realisations
+- stabilisation du service d'embedding cote backend avec un warmup et un cache court pour les requetes ;
+- ajout d'un secours semantique local dans `search_service.py` base sur `product_embeddings_bge_m3.parquet` quand Qdrant est indisponible ;
+- reduction du timeout Qdrant pour eviter des attentes inutiles quand Docker ou le daemon ne repondent pas ;
+- ajout d'un test backend supplementaire pour couvrir le fallback semantique local ;
+- rerun complet des tests backend : `7 passed` ;
+- rerun du benchmark semantique avec succes : `semantic_hybrid` sur 4 requetes, `fallback_runs = 0` ;
+- mise a jour du rapport `evaluation/semantic_eval_report.json` ;
+- confirmation que le moteur hybride depasse maintenant le baseline lexical sur le petit benchmark courant.
+
+### Decisions
+- conserver Qdrant comme brique cible de production/demo ideale, mais ne plus rendre la V1 totalement dependante de sa disponibilite locale ;
+- accepter pour la V1 un mode de resilience locale fonde sur les embeddings deja calcules, ce qui reste coherent avec la logique du moteur semantique.
+
+### Blocages
+- Docker Desktop reste instable ou insuffisamment accessible depuis ce terminal sur cette machine, ce qui empeche encore une relance Qdrant totalement fluide sans intervention supplementaire ;
+- le benchmark reste petit et doit encore etre etendu pour une evaluation plus robuste.
+
+### Prochaines Etapes
+- brancher proprement le frontend sur `/search` ;
+- figer les requetes de demonstration de la V1 ;
+- mettre a jour le README final de V1 avec les resultats obtenus ;
+- pousser les derniers changements utiles sur les branches dediees.
