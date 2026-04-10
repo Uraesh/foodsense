@@ -40,6 +40,41 @@ Les entrees ci-dessous entre le 27 mars 2026 et le 2 avril 2026 ont ete reconsti
 - ...
 ```
 
+## 2026-04-10
+
+### Objectifs Du Jour
+- stabiliser les demarrages locaux backend et Ollama ;
+- reduire la consommation de ressources pour la demo et une future prod legere ;
+- clarifier la doc projet autour de la V1 reelle.
+
+### Realisations
+- diagnostic d'un faux vide Ollama apres redemarrage : le serveur etait lance avec `OLLAMA_MODELS=D:\` au lieu de `D:\Ollama\models` ;
+- suppression complete de `qwen3-embedding:0.6b` et conservation de `bge-m3` comme modele d'embedding V1 ;
+- installation locale de `mistral` pour les essais de resume LLM ;
+- verification que `bge-m3` repond a nouveau sur `/api/embeddings` ;
+- verification que `/search` repasse en `semantic_hybrid` avec un vrai `relevance_percent` ;
+- confirmation que le resume V1 reste plus fiable en mode `extractive` qu'en mode LLM local sur cette machine ;
+- ajout de `scripts/start_ollama.ps1` avec options de demarrage plus sobres ;
+- ajout de `scripts/enable_low_resource_mode.ps1` pour generer un profil `.env` oriente faible consommation ;
+- correction de `scripts/start_backend.ps1` pour un demarrage plus robuste ;
+- mise a jour des `README` principaux du projet pour refleter l'etat reel de la V1 ;
+- push des dernieres modifications sur `feature/backend-search`, `feature/summarization-llm`, `feature/frontend-nextjs` et `feature/infra-setup`.
+
+### Decisions
+- conserver `bge-m3` pour la recherche semantique V1 ;
+- garder `SUMMARY_STRATEGY=extractive` comme comportement par defaut ;
+- ne pas faire reposer la V1 sur un resume LLM local instable ;
+- reserver un eventuel modele de resume plus leger comme `llama3.2:1b` ou `llama3.2:3b` pour une iteration suivante.
+
+### Blocages
+- `mistral` est bien installe mais reste trop lourd pour un usage de resume local fiable sur cette machine ;
+- le `python.exe` du `.venv` pointe encore vers un ancien alias Windows Store, ce qui complique certains lancements hors terminal controle.
+
+### Prochaines Etapes
+- tester un modele de resume plus leger si l'on veut repasser temporairement en `SUMMARY_STRATEGY=ollama` ;
+- renseigner `QDRANT_URL` et `QDRANT_API_KEY` pour preparer un envoi vers Qdrant Cloud ;
+- finaliser la presentation et la soutenance de la V1.
+
 ## 2026-03-27
 
 ### Objectifs Du Jour
