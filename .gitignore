@@ -6,14 +6,20 @@
 # Python
 __pycache__/
 *.py[cod]
+*.egg-info/
 .venv/
 venv/
 .tmpdeps/
+.ipython/
+.jupyter/
+.ruff_cache/
+.pytest_cache/
 
 # Node.js / Next.js
 node_modules/
 .next/
 out/
+.pnpm-store/
 
 # Data artifacts
 data/raw/*
@@ -22,7 +28,14 @@ data/interim/*
 !data/interim/.gitkeep
 *.parquet
 *.csv
+embedding_status.json
+data/processed/embedding_manifest*.json
+data/processed/*.log
 
 # Local vector DB / caches
 .qdrant/
 .cache/
+.ollama/
+
+# Notebook runtime
+.ipynb_checkpoints/
