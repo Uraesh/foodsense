@@ -11,6 +11,10 @@ class ProductResult(BaseModel):
         default="",
         description="Short customer-facing description inferred from review snippets",
     )
+    snippets: list[str] = Field(
+        default_factory=list,
+        description="Useful snippets extracted from aggregated customer reviews",
+    )
     category: str = Field(
         default="Produits",
         description="Inferred family/category label used for display",
@@ -31,8 +35,10 @@ class ProductResult(BaseModel):
 
 class SummaryResponse(BaseModel):
     product_id: str
+    product_label: str = ""
     summary: str
     pros: list[str]
     cons: list[str]
     recommendation: str
     cached: bool
+    source_basis: str = "customer-reviews"

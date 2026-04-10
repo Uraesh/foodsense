@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import field_validator
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     frontend_api_base_url: str = "http://localhost:8000"
     qdrant_host: str = "localhost"
     qdrant_port: int = 6333
+    qdrant_url_override: str = Field(default="", validation_alias="QDRANT_URL")
+    qdrant_api_key: str = ""
     qdrant_collection: str = "foodsense_products_bge_m3"
     qdrant_timeout_seconds: float = 1.5
     ollama_host: str = "http://127.0.0.1:11434"
@@ -18,7 +20,8 @@ class Settings(BaseSettings):
     ollama_keep_alive: str = "2m"
     embedding_query_max_chars: int = 512
     rerank_model: str = "qwen3:4b"
-    summary_model: str = "mistral-small-3.1"
+    summary_model: str = "mistral"
+    summary_strategy: str = "extractive"
     mistral_api_key: str = ""
     openrouter_api_key: str = ""
     search_top_k: int = 10
@@ -33,6 +36,7 @@ class Settings(BaseSettings):
         env_file=(".env", ".env.example"),
         env_file_encoding="utf-8",
         extra="ignore",
+        populate_by_name=True,
     )
 
     @field_validator("search_score_threshold", mode="before")
@@ -49,8 +53,18 @@ class Settings(BaseSettings):
             raise ValueError("Search weights must be between 0 and 1.")
         return value
 
+    @field_validator("summary_strategy")
+    @classmethod
+    def validate_summary_strategy(cls, value: str) -> str:
+        normalized = value.strip().lower()
+        if normalized not in {"extractive", "ollama"}:
+            raise ValueError("SUMMARY_STRATEGY must be either 'extractive' or 'ollama'.")
+        return normalized
+
     @property
     def qdrant_url(self) -> str:
+        if self.qdrant_url_override:
+            return self.qdrant_url_override
         return f"http://{self.qdrant_host}:{self.qdrant_port}"
 
 

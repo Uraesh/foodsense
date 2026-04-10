@@ -71,6 +71,18 @@ def _coerce_text_list(value: object) -> list[str]:
     return [text] if text else []
 
 
+def _deduplicate_texts(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    deduplicated: list[str] = []
+    for value in values:
+        normalized = re.sub(r"\s+", " ", value).strip().casefold()
+        if not normalized or normalized in seen:
+            continue
+        seen.add(normalized)
+        deduplicated.append(value.strip())
+    return deduplicated
+
+
 def _clip_text(value: str, limit: int = 180) -> str:
     normalized = re.sub(r"\s+", " ", value).strip(" .|")
     if len(normalized) <= limit:
@@ -97,6 +109,38 @@ def _derive_description(metadata: dict[str, object] | None, title: str) -> str:
     if label_hint:
         return f"{label_hint}."
     return DEFAULT_DESCRIPTION
+
+
+def _derive_snippets(
+    metadata: dict[str, object] | None,
+    title: str,
+    description: str,
+    limit: int = 2,
+) -> list[str]:
+    if metadata is None:
+        return []
+
+    candidates = _deduplicate_texts(
+        [
+            *_coerce_text_list(metadata.get("summary_samples")),
+            *_coerce_text_list(metadata.get("text_samples")),
+        ]
+    )
+    title_normalized = title.casefold().strip()
+    description_normalized = description.casefold().strip(" .")
+
+    snippets: list[str] = []
+    for candidate in candidates:
+        clipped = _clip_text(candidate, limit=140)
+        normalized = clipped.casefold().strip(" .")
+        if not normalized:
+            continue
+        if normalized == title_normalized or normalized == description_normalized:
+            continue
+        snippets.append(clipped)
+        if len(snippets) >= limit:
+            break
+    return snippets
 
 
 def _derive_category(metadata: dict[str, object] | None, title: str) -> str:
@@ -139,6 +183,14 @@ def _angle_metrics_from_similarity(
     return bounded, round(angle_degrees, 2), relevance_percent
 
 
+def _fallback_relevance_percent(score: float, reference_score: float | None = None) -> int:
+    reference = reference_score if reference_score and reference_score > 0 else score
+    if reference <= 0:
+        return 0
+    normalized = max(0.0, min(1.0, float(score) / float(reference)))
+    return max(8, min(99, round(normalized * 100)))
+
+
 def _build_product_result(
     product_id: str,
     title: str,
@@ -147,17 +199,22 @@ def _build_product_result(
     nb_reviews: int,
     metadata: dict[str, object] | None = None,
     semantic_similarity: float | None = None,
+    relevance_percent_override: int | None = None,
 ) -> ProductResult:
     bounded_similarity, angle_degrees, relevance_percent = _angle_metrics_from_similarity(
         semantic_similarity
     )
+    if relevance_percent is None:
+        relevance_percent = relevance_percent_override
+    description = _derive_description(metadata, title)
     return ProductResult(
         product_id=product_id,
         title=title,
         score=float(score),
         avg_rating=float(avg_rating),
         nb_reviews=int(nb_reviews),
-        description=_derive_description(metadata, title),
+        description=description,
+        snippets=_derive_snippets(metadata, title, description),
         category=_derive_category(metadata, title),
         semantic_similarity=bounded_similarity,
         vector_angle_degrees=angle_degrees,
@@ -219,12 +276,45 @@ def _load_local_embeddings() -> list[dict[str, object]]:
     return rows
 
 
+@lru_cache
+def _local_embedding_map() -> dict[str, dict[str, object]]:
+    return {
+        str(row["ProductId"]): row
+        for row in _load_local_embeddings()
+    }
+
+
+@lru_cache
+def _indexed_product_ids() -> set[str]:
+    return set(_local_embedding_map().keys())
+
+
+def _load_search_products() -> pl.DataFrame:
+    products = _load_product_documents()
+    indexed_ids = _indexed_product_ids()
+    if indexed_ids:
+        return products.filter(pl.col("ProductId").is_in(list(indexed_ids)))
+    return products
+
+
+def _cosine_similarity_from_row(query_vector: list[float], row: dict[str, object]) -> float | None:
+    vector = row.get("embedding") or []
+    vector_norm = float(row.get("vector_norm") or 0.0)
+    if not vector or vector_norm == 0.0:
+        return None
+    query_norm = math.sqrt(sum(value * value for value in query_vector))
+    if query_norm == 0.0:
+        return None
+    dot_product = sum(a * b for a, b in zip(query_vector, vector, strict=False))
+    return float(dot_product / (query_norm * vector_norm))
+
+
 def _build_lexical_ranking(query: str, products: pl.DataFrame | None = None) -> pl.DataFrame:
     query_text = query.strip().lower()
     if not query_text:
         return _empty_lexical_frame()
 
-    products = products if products is not None else _load_product_documents()
+    products = products if products is not None else _load_search_products()
     if products.is_empty():
         return _empty_lexical_frame()
 
@@ -266,16 +356,18 @@ def _metadata_by_product(products: pl.DataFrame, product_ids: list[str]) -> dict
 
 
 def _indexed_product_count() -> int:
-    local_embeddings = _load_local_embeddings()
-    if local_embeddings:
-        return len(local_embeddings)
-    products = _load_product_documents()
+    indexed_ids = _indexed_product_ids()
+    if indexed_ids:
+        return len(indexed_ids)
+    products = _load_search_products()
     return products.height
 
 
 def _lexical_search(request: SearchRequest, top_k: int) -> list[ProductResult]:
-    products = _load_product_documents()
+    products = _load_search_products()
     ranking_frame = _build_lexical_ranking(request.query, products).head(top_k)
+    rows = ranking_frame.to_dicts()
+    max_score = max((float(row["lexical_score"]) for row in rows), default=0.0)
     return [
         _build_product_result(
             product_id=row["ProductId"],
@@ -285,16 +377,28 @@ def _lexical_search(request: SearchRequest, top_k: int) -> list[ProductResult]:
             nb_reviews=int(row.get("review_count") or 0),
             metadata=row,
             semantic_similarity=None,
+            relevance_percent_override=_fallback_relevance_percent(
+                float(row["lexical_score"]),
+                max_score,
+            ),
         )
-        for row in ranking_frame.to_dicts()
+        for row in rows
     ]
 
 
 def _qdrant_client() -> QdrantClient:
     settings = get_settings()
+    if settings.qdrant_url_override:
+        return QdrantClient(
+            url=settings.qdrant_url,
+            api_key=settings.qdrant_api_key or None,
+            timeout=settings.qdrant_timeout_seconds,
+            check_compatibility=False,
+        )
     return QdrantClient(
         host=settings.qdrant_host,
         port=settings.qdrant_port,
+        api_key=settings.qdrant_api_key or None,
         timeout=settings.qdrant_timeout_seconds,
         check_compatibility=False,
     )
@@ -389,7 +493,7 @@ def _hybrid_search(
     min_score: float | None,
 ) -> list[ProductResult]:
     settings = get_settings()
-    products = _load_product_documents()
+    products = _load_search_products()
     candidate_pool = max(top_k, settings.search_candidate_pool)
 
     lexical_frame = _build_lexical_ranking(request.query, products).head(candidate_pool)
@@ -410,6 +514,17 @@ def _hybrid_search(
     }
     candidate_ids = list(dict.fromkeys([*semantic_scores.keys(), *lexical_scores.keys()]))
     metadata_map = _metadata_by_product(products, candidate_ids)
+    embedding_map = _local_embedding_map()
+
+    for product_id in candidate_ids:
+        if product_id in semantic_scores:
+            continue
+        row = embedding_map.get(product_id)
+        if row is None:
+            continue
+        similarity = _cosine_similarity_from_row(query_vector, row)
+        if similarity is not None:
+            semantic_scores[product_id] = similarity
 
     semantic_max = max(semantic_scores.values(), default=0.0)
     lexical_max = max(lexical_scores.values(), default=0.0)
@@ -456,7 +571,18 @@ def _hybrid_search(
         key=lambda item: (item.score, item.nb_reviews, item.avg_rating),
         reverse=True,
     )
-    return ranked_results[:top_k]
+    top_results = ranked_results[:top_k]
+    max_score = max((result.score for result in top_results), default=0.0)
+    adjusted_results: list[ProductResult] = []
+    for result in top_results:
+        if result.relevance_percent is None:
+            result = result.model_copy(
+                update={
+                    "relevance_percent": _fallback_relevance_percent(result.score, max_score)
+                }
+            )
+        adjusted_results.append(result)
+    return adjusted_results
 
 
 async def search_products(request: SearchRequest) -> SearchResponse:
