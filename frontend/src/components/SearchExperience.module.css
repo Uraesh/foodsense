@@ -1,0 +1,170 @@
+.shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-6);
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.shellIdle {
+  min-height: 100vh;
+  place-content: center;
+}
+
+.shellActive {
+  padding-top: 2.5rem;
+}
+
+.searchPanel {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.searchPanelIdle {
+  justify-items: center;
+}
+
+.searchPanelActive {
+  gap: 1rem;
+}
+
+.brandBlock {
+  display: grid;
+  justify-items: center;
+  gap: 0.85rem;
+}
+
+.brandMark {
+  display: inline-grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 92%);
+  box-shadow: 0 3px 10px rgb(60 64 67 / 14%);
+}
+
+.brandSvg {
+  width: 42px;
+  height: 42px;
+}
+
+.brandTitle {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(3.15rem, 7vw, 5.25rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+
+.warning,
+.error {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.warning {
+  color: #b06000;
+}
+
+.error {
+  color: #d93025;
+}
+
+.resultsPanel {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.resultsHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.resultsMeta {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.resultsHint {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+}
+
+.strategyHint,
+.timeHint {
+  margin: 0;
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+}
+
+.sortLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--color-text-soft);
+}
+
+.sortLabel span {
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+.sortSelect {
+  min-height: 2.5rem;
+  padding: 0 0.8rem;
+  border: 1px solid var(--color-stroke-soft);
+  border-radius: 10px;
+  background: white;
+  color: var(--color-text-primary);
+}
+
+.resultsGrid {
+  display: grid;
+  gap: 0;
+}
+
+.resultStack {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.summaryError {
+  margin: 0;
+  color: #d93025;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 979px) {
+  .shellActive {
+    padding-top: 2rem;
+  }
+}
+
+@media (max-width: 719px) {
+  .brandTitle {
+    font-size: clamp(2.75rem, 15vw, 4rem);
+  }
+
+  .brandMark {
+    width: 66px;
+    height: 66px;
+  }
+
+  .brandSvg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .resultsHeader {
+    align-items: stretch;
+  }
+}
