@@ -1,218 +1,210 @@
 # FoodSense
 
-FoodSense est un moteur de recherche semantique pour produits alimentaires construit autour de Next.js, FastAPI, Qdrant, Ollama et Mistral.
+FoodSense est un moteur de recherche semantique pour produits alimentaires construit avec Next.js, FastAPI, Qdrant, Ollama et un pipeline Polars.
 
-## Vue d'ensemble
+La V1 travaille sur Amazon Fine Food Reviews. Comme ce dataset ne fournit pas un vrai catalogue produit riche, l'unite de recherche principale reste le `ProductId` et chaque resultat est reconstruit a partir des avis agregees.
 
-L'utilisateur saisit une requete en langage naturel, le systeme retrouve les produits les plus pertinents par le sens, puis il peut demander une synthese structuree des avis a la demande.
+## Etat actuel de la V1
 
-Flux vise :
+Le projet couvre deja :
 
-`Requete libre -> Embedding -> Qdrant -> Reranking -> Top K -> Resume LLM`
+- nettoyage et preparation des donnees avec Polars ;
+- construction de documents produits agreges ;
+- embeddings `bge-m3` et indexation Qdrant ;
+- recherche `semantic_hybrid` avec fallback lexical ;
+- frontend de recherche branche sur `/search` ;
+- bouton `Resume` centre sur les avis clients ;
+- evaluation semantique vs baseline keyword.
 
-## Cadrage V1
+Metriques actuellement versionnees :
 
-Le projet s'appuie sur le dataset Amazon Fine Food Reviews. Ce dataset contient des avis, mais pas un catalogue produit complet avec des noms officiels fiables ni des metadonnees nutritionnelles structurees.
+- semantique : `Precision@3 = 0.75`, `Success@3 = 1.0`, `MRR = 0.8333`
+- lexical : `Precision@3 = 0.6667`, `Success@3 = 0.75`, `MRR = 0.75`
 
-La V1 doit donc etre comprise comme un moteur de recherche semantique sur des documents produits reconstruits a partir des avis, agreges par `ProductId`.
+Fichiers de reference :
+
+- [evaluation/semantic_eval_report.json](d:/Licience%203%20IA-BD/Semantic-search/evaluation/semantic_eval_report.json)
+- [evaluation/keyword_eval_report.json](d:/Licience%203%20IA-BD/Semantic-search/evaluation/keyword_eval_report.json)
+- [docs/V1_V2_checklist.md](d:/Licience%203%20IA-BD/Semantic-search/docs/V1_V2_checklist.md)
+
+## Cadrage fonctionnel V1
 
 - L'unite de recherche principale est le `ProductId`.
 - Chaque produit est represente par un document de recherche construit a partir des `Summary`, `Text`, de la note moyenne et du nombre d'avis.
 - L'interface affiche un identifiant produit, un label infere, des extraits utiles et un score de pertinence.
-- Le bouton `Resume` reste la fonctionnalite centrale du cahier des charges.
+- Le bouton `Resume` est central, mais il repose par defaut sur une synthese extractive stable.
 
-Cette V1 ne constitue pas une recommandation medicale, nutritionnelle ou reglementaire. Toute fonctionnalite de type `Voir les produits adaptes` basee sur des sources externes reste hors perimetre immediat.
+Important :
+
+- la V1 n'est pas un moteur de recommandation nutritionnelle certifie ;
+- le RAG complet n'est pas le coeur de la V1, car le dataset actuel ne contient pas de noms de produits officiels fiables ni de vraies metadonnees nutritionnelles structurees ;
+- l'ajout d'un dataset enrichi avec noms de produits et attributs metier reste une piste V2.
 
 ## Architecture du projet
 
 ```text
 foodsense/
-|
 |-- README.md
-|-- docker-compose.yml
 |-- .env.example
 |-- .gitignore
+|-- docker-compose.yml
 |-- requirements.txt
 |
-|-- data/
-|   |-- raw/
-|   |-- processed/
-|   `-- samples/
-|
-|-- pipeline/
-|   |-- README.md
-|   |-- requirements.txt
-|   |-- 01_clean.py
-|   |-- 02_build_product_docs.py
-|   |-- 03_generate_embeddings.py
-|   |-- 04_index_qdrant.py
-|   |-- reviews_polars.py
-|   `-- utils/
-|       |-- __init__.py
-|       `-- qdrant_client.py
-|
 |-- backend/
-|   |-- Dockerfile
-|   |-- requirements.txt
-|   |-- pyproject.toml
-|   |-- app/
-|   |   |-- __init__.py
-|   |   |-- main.py
-|   |   |-- config.py
-|   |   |-- routers/
-|   |   |   |-- __init__.py
-|   |   |   |-- search.py
-|   |   |   `-- summarize.py
-|   |   |-- services/
-|   |   |   |-- __init__.py
-|   |   |   |-- embedding_service.py
-|   |   |   |-- search_service.py
-|   |   |   |-- rerank_service.py
-|   |   |   |-- summarize_service.py
-|   |   |   `-- cache.py
-|   |   `-- models/
-|   |       |-- __init__.py
-|   |       |-- search.py
-|   |       `-- product.py
-|   `-- tests/
-|       |-- __init__.py
-|       |-- test_health.py
-|       |-- test_search.py
-|       `-- test_summarize.py
-|
 |-- frontend/
-|   |-- Dockerfile
-|   |-- package.json
-|   |-- next.config.js
-|   |-- .env.local.example
-|   |-- src/
-|   |   |-- app/
-|   |   |   |-- layout.tsx
-|   |   |   |-- page.tsx
-|   |   |   `-- globals.css
-|   |   |-- components/
-|   |   |   |-- SearchBar.tsx
-|   |   |   |-- ResultCard.tsx
-|   |   |   |-- SummaryPanel.tsx
-|   |   |   `-- LoadingSpinner.tsx
-|   |   `-- lib/
-|   |       `-- api.ts
-|   `-- public/
-|
+|-- pipeline/
 |-- evaluation/
-|   |-- README.md
-|   |-- queries_test.json
-|   |-- eval_semantic.py
-|   |-- eval_keyword_baseline.py
-|   `-- results/
-|
 |-- docs/
-|-- docker/
-|   `-- notebook.Dockerfile
-`-- scripts/
-    `-- bootstrap_local_env.ps1
+|-- scripts/
+`-- data/
 ```
+
+Sous-dossiers principaux :
+
+- `backend/` : API FastAPI, routes `/search` et `/summarize`, services d'embedding et de resume
+- `frontend/` : interface Next.js
+- `pipeline/` : nettoyage, documents produits, embeddings, indexation Qdrant
+- `evaluation/` : benchmark keyword vs semantic
+- `scripts/` : bootstrap local, demarrage Docker, backend, Ollama, profil ressources reduites
+- `data/processed/` : artefacts preprocesses et embeddings locaux
 
 ## Variables d'environnement
 
-Copier `.env.example` en `.env` puis renseigner les valeurs necessaires :
+Le projet lit `.env` s'il existe, sinon `.env.example`.
 
-Variables principales :
+Variables importantes :
 
-- `MISTRAL_API_KEY` : cle API de synthese.
-- `OPENROUTER_API_KEY` : cle API pour le reranking.
-- `QDRANT_HOST` et `QDRANT_PORT` : connexion vers Qdrant.
-- `OLLAMA_HOST` : hote Ollama pour les embeddings.
-- `BACKEND_PORT` : port FastAPI.
-- `FRONTEND_PORT` : port Next.js.
+- `QDRANT_HOST`, `QDRANT_PORT` : acces Qdrant local
+- `QDRANT_URL`, `QDRANT_API_KEY` : acces Qdrant Cloud
+- `OLLAMA_HOST` : endpoint Ollama
+- `EMBEDDING_MODEL` : modele d'embedding, actuellement `bge-m3`
+- `SUMMARY_MODEL` : modele LLM de resume
+- `SUMMARY_STRATEGY` : `extractive` ou `ollama`
+- `OLLAMA_KEEP_ALIVE` : duree de maintien en memoire des modeles
 
-## Installation locale sur D:
-
-Le projet est configure pour garder les caches et dependances Python locales sur le disque `D:` via le script `scripts/bootstrap_local_env.ps1`.
+## Installation locale
 
 ```powershell
 .\scripts\bootstrap_local_env.ps1 -Install
 ```
 
-Ce script prepare :
+Ce script prepare le projet sur `D:` pour limiter la pression sur `C:`.
 
-- `.venv/`
-- `.cache/pip`
-- `.cache/uv`
-- `.cache/npm`
-- `.cache/tmp`
-- `.jupyter/`
-- `.ipython/`
-- `.ollama/`
+## Demarrage rapide
 
-## Lancement rapide
+### 1. Ollama
 
-### Pipeline de donnees
+Demarrage standard :
 
 ```powershell
-python -m pip install -r pipeline\requirements.txt
-python pipeline\01_clean.py
-python pipeline\02_build_product_docs.py
-python pipeline\03_generate_embeddings.py
-python pipeline\04_index_qdrant.py
+.\scripts\start_ollama.ps1
 ```
 
-### Application complete
-
-Demarrage recommande sur Windows :
+Demarrage plus sobre en ressources :
 
 ```powershell
-.\scripts\start_docker_stack.ps1
+.\scripts\start_ollama.ps1 -LowMemory
 ```
 
-Options utiles :
+### 2. Qdrant / Docker
 
-- `.\scripts\start_docker_stack.ps1 -QdrantOnly`
+```powershell
+.\scripts\start_docker_stack.ps1 -QdrantOnly
+```
+
+Ou avec services supplementaires :
+
+- `.\scripts\start_docker_stack.ps1`
 - `.\scripts\start_docker_stack.ps1 -IncludeUI`
 - `.\scripts\start_docker_stack.ps1 -IncludeData`
 - `.\scripts\start_docker_stack.ps1 -IncludeLLM`
 
-Ce script :
-
-- cree un `DOCKER_CONFIG` local dans le projet pour eviter les blocages sur `C:\Users\...\ .docker\config.json` ;
-- lance Docker Desktop si besoin ;
-- attend que le daemon soit pret ;
-- demarre automatiquement les services requis via `docker compose` ;
-- s'appuie directement sur `.env.example` pour le demarrage standard du stack.
-
-Commande compose directe si Docker est deja pret :
+### 3. Backend
 
 ```powershell
-docker-compose up --build
+.\scripts\start_backend.ps1
 ```
 
-Services attendus :
+### 4. Frontend
 
-- Frontend : `http://localhost:3000`
-- Backend API : `http://localhost:8000`
-- Swagger : `http://localhost:8000/docs`
-- Qdrant : `http://localhost:6333/dashboard`
-- Jupyter Lab : `http://localhost:8888`
+```powershell
+cd frontend
+npm install
+npm run dev
+```
 
-## Regles de travail
+## Mode ressources reduites
 
-- `main` reste stable.
-- Le travail se fait sur des branches `feature/*`.
-- Les changements passent par Pull Request.
-- Les donnees brutes ne sont jamais versionnees.
-- Les secrets ne doivent jamais etre commits.
+Pour la prod locale, la demo ou une machine limitee, un script applique un profil plus sobre :
 
-## Base MLOps
+```powershell
+.\scripts\enable_low_resource_mode.ps1
+```
 
-- Une CI GitHub Actions valide l'hygiene du depot, Python et le frontend.
-- `CODEOWNERS` et le template de PR structurent la revue.
-- Le pipeline, le backend, le frontend et l'evaluation sont decoupes par responsabilite.
+Ce profil :
 
-## Priorites immediates
+- force `SUMMARY_STRATEGY=extractive`
+- prepare `SUMMARY_MODEL=llama3.2:1b` pour une future activation LLM plus legere
+- reduit `OLLAMA_KEEP_ALIVE`
+- raccourcit `EMBEDDING_QUERY_MAX_CHARS`
+- diminue `SEARCH_TOP_K` et `SEARCH_CANDIDATE_POOL`
+- garde un seul modele charge a la fois via `start_ollama.ps1 -LowMemory`
 
-- Finaliser le pipeline complet `clean -> docs -> embeddings -> qdrant`.
-- Brancher la recherche backend sur les documents produits preprocesses.
-- Connecter le frontend au backend.
-- Mettre en place l'evaluation semantique vs baseline keyword.
-- Stabiliser le demarrage par Docker pour la demo.
-- Suivre la checklist de cloture V1 / cadrage V2 dans `docs/V1_V2_checklist.md`.
+Commande conseillee :
+
+```powershell
+.\scripts\enable_low_resource_mode.ps1
+.\scripts\start_ollama.ps1 -LowMemory
+.\scripts\start_docker_stack.ps1 -QdrantOnly
+.\scripts\start_backend.ps1
+```
+
+## Resume et stabilite
+
+Par defaut, le resume produit reste stable grace a `SUMMARY_STRATEGY=extractive`.
+
+Pourquoi :
+
+- le resume LLM local est possible, mais depend encore de la stabilite RAM d'Ollama sur cette machine ;
+- la V1 privilegie donc une synthese fiable des avis clients plutot qu'une generation fragile.
+
+La route utile est :
+
+- `GET /summarize/{product_id}`
+- `POST /summarize/{product_id}`
+
+## Qdrant Cloud
+
+Le code supporte deja Qdrant Cloud. Pour l'activer, renseigner :
+
+- `QDRANT_URL`
+- `QDRANT_API_KEY`
+
+Le backend et le pipeline basculeront alors vers cette cible sans changer le code metier.
+
+## Evaluation
+
+Pour rejouer les benchmarks :
+
+```powershell
+python evaluation\eval_keyword_baseline.py
+python evaluation\eval_semantic.py
+```
+
+Ou lancer la suite qualite :
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\run_quality_suite.ps1
+```
+
+## Branches de travail
+
+- `main` reste la reference stable
+- le developpement se fait sur `feature/*`
+- les donnees brutes et secrets ne doivent jamais etre commits
+
+## Documentation associee
+
+- [pipeline/README.md](d:/Licience%203%20IA-BD/Semantic-search/pipeline/README.md)
+- [evaluation/README.md](d:/Licience%203%20IA-BD/Semantic-search/evaluation/README.md)
+- [docs/README_journal_de_bord.md](d:/Licience%203%20IA-BD/Semantic-search/docs/README_journal_de_bord.md)
