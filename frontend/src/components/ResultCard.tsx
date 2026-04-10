@@ -7,6 +7,7 @@ export type SearchResult = {
   avg_rating: number;
   nb_reviews: number;
   description: string;
+  snippets: string[];
   category: string;
   semantic_similarity: number | null;
   vector_angle_degrees: number | null;
@@ -16,6 +17,9 @@ export type SearchResult = {
 type ResultCardProps = {
   result: SearchResult;
   rank: number;
+  isSummaryOpen?: boolean;
+  isSummaryLoading?: boolean;
+  onRequestSummary?: (productId: string) => void;
 };
 
 const STAR_COUNT = 5;
@@ -25,7 +29,13 @@ function buildStars(avgRating: number) {
   return Array.from({ length: STAR_COUNT }, (_, index) => index < rounded);
 }
 
-export function ResultCard({ result, rank }: ResultCardProps) {
+export function ResultCard({
+  result,
+  rank,
+  isSummaryOpen = false,
+  isSummaryLoading = false,
+  onRequestSummary,
+}: ResultCardProps) {
   const relevancePercent = result.relevance_percent;
   const stars = buildStars(result.avg_rating);
 
@@ -83,7 +93,32 @@ export function ResultCard({ result, rank }: ResultCardProps) {
         </div>
 
         <p className={styles.description}>{result.description}</p>
-        <p className={styles.productId}>{result.product_id}</p>
+
+        {result.snippets.length > 0 ? (
+          <ul className={styles.snippetList}>
+            {result.snippets.map((snippet) => (
+              <li key={`${result.product_id}-${snippet}`} className={styles.snippetItem}>
+                {snippet}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
+        <div className={styles.footerRow}>
+          <p className={styles.productId}>{`ProductId : ${result.product_id}`}</p>
+          <button
+            className={styles.summaryButton}
+            type="button"
+            onClick={() => onRequestSummary?.(result.product_id)}
+            disabled={isSummaryLoading}
+          >
+            {isSummaryLoading
+              ? "Resume..."
+              : isSummaryOpen
+                ? "Masquer le resume"
+                : "Resume"}
+          </button>
+        </div>
       </div>
     </article>
   );

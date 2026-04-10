@@ -2,7 +2,8 @@
 
 import { startTransition, useState } from "react";
 
-import { fetchSearch, type SearchPayload } from "@/lib/api";
+import { fetchSearch, fetchSummary, type SearchPayload, type SummaryPayload } from "@/lib/api";
+import { AiSummaryCard } from "@/components/AiSummaryCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { ResultCard } from "@/components/ResultCard";
 import { SearchBar } from "@/components/SearchBar";
@@ -46,6 +47,10 @@ export function SearchExperience() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [sortKey, setSortKey] = useState<"relevance" | "rating" | "reviews">("relevance");
+  const [summaryProductId, setSummaryProductId] = useState<string | null>(null);
+  const [summary, setSummary] = useState<SummaryPayload | null>(null);
+  const [summaryLoadingFor, setSummaryLoadingFor] = useState<string | null>(null);
+  const [summaryError, setSummaryError] = useState<string | null>(null);
 
   async function runSearch(nextQuery = query) {
     const normalizedQuery = nextQuery.trim();
@@ -65,6 +70,10 @@ export function SearchExperience() {
         setStrategy(payload.strategy);
         setWarning(payload.warning);
         setSearchTimeMs(payload.search_time_ms);
+        setSummary(null);
+        setSummaryProductId(null);
+        setSummaryLoadingFor(null);
+        setSummaryError(null);
       });
     } catch {
       setError(
@@ -72,6 +81,31 @@ export function SearchExperience() {
       );
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function handleSummaryRequest(productId: string) {
+    if (summaryProductId === productId && summary !== null) {
+      setSummary(null);
+      setSummaryProductId(null);
+      setSummaryError(null);
+      return;
+    }
+
+    setSummaryLoadingFor(productId);
+    setSummaryError(null);
+    try {
+      const payload = await fetchSummary(productId);
+      startTransition(() => {
+        setSummary(payload);
+        setSummaryProductId(productId);
+      });
+    } catch {
+      setSummary(null);
+      setSummaryProductId(productId);
+      setSummaryError("Le resume IA est temporairement indisponible.");
+    } finally {
+      setSummaryLoadingFor(null);
     }
   }
 
@@ -146,9 +180,36 @@ export function SearchExperience() {
 
           {!isLoading && sortedResults.length > 0 ? (
             <div className={styles.resultsGrid}>
-              {sortedResults.map((result, index) => (
-                <ResultCard key={result.product_id} result={result} rank={index + 1} />
-              ))}
+              {sortedResults.map((result, index) => {
+                const isSummaryOpen = summaryProductId === result.product_id && summary !== null;
+                const isSummaryLoading = summaryLoadingFor === result.product_id;
+
+                return (
+                  <div key={result.product_id} className={styles.resultStack}>
+                    <ResultCard
+                      result={result}
+                      rank={index + 1}
+                      isSummaryOpen={isSummaryOpen}
+                      isSummaryLoading={isSummaryLoading}
+                      onRequestSummary={handleSummaryRequest}
+                    />
+                    {summaryProductId === result.product_id && summaryError ? (
+                      <p className={styles.summaryError}>{summaryError}</p>
+                    ) : null}
+                    {isSummaryOpen ? (
+                      <AiSummaryCard
+                        summary={summary}
+                        title={result.title}
+                        onClose={() => {
+                          setSummary(null);
+                          setSummaryProductId(null);
+                          setSummaryError(null);
+                        }}
+                      />
+                    ) : null}
+                  </div>
+                );
+              })}
             </div>
           ) : null}
         </div>

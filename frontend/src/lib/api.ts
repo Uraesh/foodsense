@@ -9,6 +9,7 @@ export type SearchPayload = {
     avg_rating: number;
     nb_reviews: number;
     description: string;
+    snippets: string[];
     category: string;
     semantic_similarity: number | null;
     vector_angle_degrees: number | null;
@@ -22,11 +23,13 @@ export type SearchPayload = {
 
 export type SummaryPayload = {
   product_id: string;
+  product_label: string;
   summary: string;
   pros: string[];
   cons: string[];
   recommendation: string;
   cached: boolean;
+  source_basis: string;
 };
 
 export async function fetchHealth() {

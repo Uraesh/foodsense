@@ -3,15 +3,17 @@ import styles from "./AiSummaryCard.module.css";
 
 type AiSummaryCardProps = {
   summary: SummaryPayload;
+  title: string;
   onClose: () => void;
 };
 
-export function AiSummaryCard({ summary, onClose }: AiSummaryCardProps) {
+export function AiSummaryCard({ summary, title, onClose }: AiSummaryCardProps) {
   return (
     <section className={styles.card}>
       <div className={styles.header}>
         <div>
-          <p className={styles.kicker}>Synthese IA - Mistral Small 3.1</p>
+          <p className={styles.kicker}>Resume des avis clients</p>
+          <p className={styles.productTitle}>{title}</p>
           <span className={styles.cache}>
             <span className={styles.cacheDot} aria-hidden="true" />
             {summary.cached ? "en cache" : "genere a la demande"}
