@@ -1,10 +1,13 @@
 param(
     [switch]$Install,
-    [string]$PythonVersion = "3.12"
+    [string]$PythonVersion = "3.12",
+    [string]$PythonExecutable = "",
+    [switch]$RecreateVenv
 )
 
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $VenvPath = Join-Path $ProjectRoot ".venv"
+. (Join-Path $PSScriptRoot "Get-PythonRunner.ps1")
 
 $paths = @{
     PIP_CACHE_DIR = Join-Path $ProjectRoot ".cache\\pip"
@@ -27,27 +30,36 @@ foreach ($entry in $paths.GetEnumerator()) {
     Set-Item -Path ("Env:" + $entry.Key) -Value $entry.Value
 }
 
+if ($RecreateVenv -and (Test-Path $VenvPath)) {
+    Remove-Item -LiteralPath $VenvPath -Recurse -Force
+}
+
+$Python = Resolve-PythonRunner `
+    -ProjectRoot $ProjectRoot `
+    -PythonVersion $PythonVersion `
+    -PythonExecutable $PythonExecutable `
+    -SkipVenv
+
 if (-not (Test-Path $VenvPath)) {
-    & py "-$PythonVersion" -m venv $VenvPath
+    & $Python.Runner @($Python.Args + @("-m", "venv", $VenvPath))
 }
 
 $PythonExe = Join-Path $VenvPath "Scripts\\python.exe"
-$PipExe = Join-Path $VenvPath "Scripts\\pip.exe"
 $RequirementsPath = Join-Path $ProjectRoot "requirements.txt"
 
+if (-not (Test-Path $RequirementsPath)) {
+    throw "requirements.txt introuvable: $RequirementsPath"
+}
+
 if ($Install) {
-    if (Test-Path $PipExe) {
-        & $PythonExe -m pip install --upgrade pip
-        & $PythonExe -m pip install -r $RequirementsPath
-    }
-    else {
-        & py "-$PythonVersion" -m pip --python $PythonExe install -r $RequirementsPath
-    }
+    & $PythonExe -m pip install --upgrade pip
+    & $PythonExe -m pip install -r $RequirementsPath
 }
 
 Write-Host "D-drive local environment prepared."
 Write-Host "Project root: $ProjectRoot"
 Write-Host "Virtual environment: $VenvPath"
+Write-Host "Python runner: $($Python.Runner) $($Python.Args -join ' ')"
 Write-Host "To activate it in the current shell, run:"
 Write-Host "  & `"$VenvPath\\Scripts\\Activate.ps1`""
 Write-Host "To install dependencies on D:, run:"
