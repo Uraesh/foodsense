@@ -5,7 +5,9 @@ param(
     [switch]$SkipTests,
     [switch]$SkipRuff,
     [switch]$SkipCompile,
-    [string]$RunLabel
+    [string]$RunLabel,
+    [string]$PythonVersion = "3.12",
+    [string]$PythonExecutable = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -14,6 +16,7 @@ Set-StrictMode -Version Latest
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $LogDir = Join-Path $ProjectRoot "evaluation\results"
 $PowerShellExe = "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+. (Join-Path $PSScriptRoot "Get-PythonRunner.ps1")
 
 if (-not $RunLabel) {
     $RunLabel = Get-Date -Format "yyyyMMdd_HHmmss"
@@ -30,8 +33,13 @@ if ($Background) {
         "-NoProfile",
         "-ExecutionPolicy", "Bypass",
         "-File", $PSCommandPath,
-        "-RunLabel", $RunLabel
+        "-RunLabel", $RunLabel,
+        "-PythonVersion", $PythonVersion
     )
+
+    if ($PythonExecutable) {
+        $argumentList += @("-PythonExecutable", $PythonExecutable)
+    }
 
     foreach ($switchName in @("SkipSemanticEval", "SkipKeywordEval", "SkipTests", "SkipRuff", "SkipCompile")) {
         if (Get-Variable -Name $switchName -ValueOnly) {
@@ -140,30 +148,31 @@ try {
     }
 
     $env:PYTHONPATH = ".venv\Lib\site-packages;backend"
+    $Python = Resolve-PythonRunner -ProjectRoot $ProjectRoot -PythonVersion $PythonVersion -PythonExecutable $PythonExecutable
 
     $status.semantic_prerequisites.ollama = Test-HttpEndpoint "http://127.0.0.1:11434/api/tags"
     $status.semantic_prerequisites.qdrant = Test-HttpEndpoint "http://127.0.0.1:6333/collections"
     Save-Status
 
     if (-not $SkipCompile) {
-        Invoke-Step "compileall" { py -3.13 -m compileall backend\app evaluation }
+        Invoke-Step "compileall" { & $Python.Runner @($Python.Args + @("-m", "compileall", "backend\app", "evaluation")) }
     }
 
     if (-not $SkipRuff) {
-        Invoke-Step "ruff" { .\.venv\Scripts\ruff.exe check backend\app backend\tests evaluation }
+        Invoke-Step "ruff" { & $Python.Runner @($Python.Args + @("-m", "ruff", "check", "backend\app", "backend\tests", "evaluation")) }
     }
 
     if (-not $SkipTests) {
-        Invoke-Step "pytest" { py -3.13 -m pytest backend\tests -q }
+        Invoke-Step "pytest" { & $Python.Runner @($Python.Args + @("-m", "pytest", "backend\tests", "-q")) }
     }
 
     if (-not $SkipKeywordEval) {
-        Invoke-Step "keyword_eval" { py -3.13 evaluation\eval_keyword_baseline.py }
+        Invoke-Step "keyword_eval" { & $Python.Runner @($Python.Args + @("evaluation\eval_keyword_baseline.py")) }
     }
 
     if (-not $SkipSemanticEval) {
         if ($status.semantic_prerequisites.ollama -and $status.semantic_prerequisites.qdrant) {
-            Invoke-Step "semantic_eval" { py -3.13 evaluation\eval_semantic.py }
+            Invoke-Step "semantic_eval" { & $Python.Runner @($Python.Args + @("evaluation\eval_semantic.py")) }
         }
         else {
             $step = [ordered]@{
