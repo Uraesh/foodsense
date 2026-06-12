@@ -1,5 +1,5 @@
 import { Star, Bookmark } from "lucide-react";
-import type { Result } from "@/lib/data";
+import type { Result } from "@/lib/types";
 import ProductPlaceholder from "./ProductPlaceholder";
 
 function Stars({ rating }: { rating: number }) {

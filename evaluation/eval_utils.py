@@ -10,9 +10,20 @@ import polars as pl
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 BACKEND_ROOT = PROJECT_ROOT / "backend"
-PRODUCT_DOCUMENTS_PATH = (
-    PROJECT_ROOT / "data" / "processed" / "product_documents.parquet"
-)
+
+# Prefer product documents files that contain 'v2' in their filename; fall back to any product_documents parquet
+PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+PRODUCT_DOCUMENTS_PATH = None
+if PROCESSED_DIR.exists():
+    v2_candidates = sorted(PROCESSED_DIR.glob("*product*v2*.parquet"))
+    any_candidates = sorted(PROCESSED_DIR.glob("*product*.parquet"))
+    if v2_candidates:
+        PRODUCT_DOCUMENTS_PATH = v2_candidates[0]
+    elif any_candidates:
+        PRODUCT_DOCUMENTS_PATH = any_candidates[0]
+
+if PRODUCT_DOCUMENTS_PATH is None:
+    PRODUCT_DOCUMENTS_PATH = PROJECT_ROOT / "data" / "processed" / "product_documents.parquet"
 
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
@@ -28,15 +39,38 @@ def load_catalog_texts() -> dict[str, str]:
     """Load product catalog texts from a Parquet file and return a mapping of ProductId to combined text."""
     if not PRODUCT_DOCUMENTS_PATH.exists():
         return {}
-    frame = pl.read_parquet(PRODUCT_DOCUMENTS_PATH).select(
-        ["ProductId", "label_hint", "search_text"]
-    )
-    return {
-        row[
-            "ProductId"
-        ]: f"{row.get('label_hint') or ''} {row.get('search_text') or ''}".lower()
-        for row in frame.to_dicts()
-    }
+    frame = pl.read_parquet(PRODUCT_DOCUMENTS_PATH)
+
+    # Determine the identifier column (support multiple possible names)
+    id_candidates = ["ProductId", "product_id", "source_product_id", "sourceProductId"]
+    label_candidates = ["label_hint", "title", "name"]
+    search_candidates = ["search_text", "search_text_lower", "text", "description"]
+
+    id_col = next((c for c in id_candidates if c in frame.columns), None)
+    if id_col is None:
+        return {}
+
+    label_col = next((c for c in label_candidates if c in frame.columns), None)
+    search_col = next((c for c in search_candidates if c in frame.columns), None)
+
+    select_cols = [id_col]
+    if label_col:
+        select_cols.append(label_col)
+    if search_col:
+        select_cols.append(search_col)
+
+    frame = frame.select(select_cols)
+
+    catalog: dict[str, str] = {}
+    for row in frame.to_dicts():
+        pid = str(row.get(id_col) or "")
+        if not pid:
+            continue
+        label = str(row.get(label_col) or "") if label_col else ""
+        search = str(row.get(search_col) or "") if search_col else ""
+        combined = f"{label} {search}".strip().lower()
+        catalog[pid] = combined
+    return catalog
 
 
 def is_relevant(
@@ -45,7 +79,14 @@ def is_relevant(
     catalog_texts: dict[str, str],
 ) -> bool:
     """Determine if a search result is relevant based on the benchmark's positive groups."""
-    product_id = str(result.get("product_id") or "")
+    # Support multiple possible id field names in the result dict
+    id_candidates = ["product_id", "ProductId", "productId", "id", "source_product_id", "sourceProductId"]
+    product_id = ""
+    for c in id_candidates:
+        if c in result and result.get(c) is not None:
+            product_id = str(result.get(c))
+            break
+
     text = f"{result.get('title') or ''} {catalog_texts.get(product_id, '')}".lower()
     positive_groups = benchmark.get("positive_groups", [])
     if not positive_groups:

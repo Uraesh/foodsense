@@ -1,5 +1,7 @@
 """Configuration management for the FoodSense backend application."""
 from functools import lru_cache
+from urllib.parse import quote_plus
+import re
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -10,7 +12,13 @@ class Settings(BaseSettings):
     app_name: str = "FoodSense Backend"
     backend_host: str = "0.0.0.0"
     backend_port: int = 8000
-    frontend_api_base_url: str = "http://localhost:8000"
+    frontend_api_base_url: str = "http://localhost:3000"
+    database_url: str = ""
+    postgres_host: str = "localhost"
+    postgres_port: int = 5432
+    postgres_db: str = "Foodsense"
+    postgres_user: str = "postgres"
+    postgres_password: str = "yusuke"
     qdrant_host: str = "localhost"
     qdrant_port: int = 6333
     qdrant_url_override: str = Field(default="", validation_alias="QDRANT_URL")
@@ -23,7 +31,10 @@ class Settings(BaseSettings):
     embedding_query_max_chars: int = 512
     rerank_model: str = "qwen3:4b"
     summary_model: str = "mistral"
-    summary_strategy: str = "extractive"
+    # Default to using the Ollama-backed LLM (mistral) for summaries so that
+    # Mistral is the out-of-the-box summarization backend. Set SUMMARY_STRATEGY
+    # to 'extractive' to use the fallback extractive summarizer.
+    summary_strategy: str = "ollama"
     mistral_api_key: str = ""
     openrouter_api_key: str = ""
     search_top_k: int = 10
@@ -33,6 +44,30 @@ class Settings(BaseSettings):
     search_lexical_weight: float = 0.35
     embedding_cache_ttl_seconds: int = 900
     summary_cache_ttl_seconds: int = 3600
+
+    @property
+    def frontend_api_origins(self) -> list[str]:
+        origins = [
+            origin.strip()
+            for origin in re.split(r"\s*,\s*", self.frontend_api_base_url)
+            if origin.strip()
+        ]
+        if not origins:
+            origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
+        if "http://localhost:3000" not in origins:
+            origins.append("http://localhost:3000")
+        if "http://127.0.0.1:3000" not in origins:
+            origins.append("http://127.0.0.1:3000")
+        return origins
+
+    @property
+    def resolved_database_url(self) -> str:
+        if self.database_url:
+            return self.database_url
+        user = quote_plus(self.postgres_user)
+        password = quote_plus(self.postgres_password) if self.postgres_password else ""
+        auth = f"{user}:{password}@" if password else f"{user}@"
+        return f"postgresql://{auth}{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
 
     model_config = SettingsConfigDict(
         env_file=(".env", ".env.example"),

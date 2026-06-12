@@ -17,9 +17,17 @@ from app.services.embedding_service import embed_query
 from app.services.rerank_service import rerank_products
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-PRODUCT_DOCUMENTS_PATH = (
-    PROJECT_ROOT / "data" / "processed" / "product_documents.parquet"
-)
+
+# Prefer v2 product documents when available
+PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+PRODUCT_DOCUMENTS_PATH = PROCESSED_DIR / "product_documents.parquet"
+if PROCESSED_DIR.exists():
+    v2_candidates = sorted(PROCESSED_DIR.glob("*product*v2*.parquet"))
+    any_candidates = sorted(PROCESSED_DIR.glob("*product*.parquet"))
+    if v2_candidates:
+        PRODUCT_DOCUMENTS_PATH = v2_candidates[0]
+    elif any_candidates:
+        PRODUCT_DOCUMENTS_PATH = any_candidates[0]
 logger = logging.getLogger(__name__)
 DEFAULT_DESCRIPTION = "Produit reconstruit a partir d'avis clients agreges."
 DEFAULT_CATEGORY = "Produits"
@@ -29,6 +37,31 @@ DEFAULT_CATEGORY = "Produits"
 def _load_product_documents() -> pl.DataFrame:
     if PRODUCT_DOCUMENTS_PATH.exists():
         products = pl.read_parquet(PRODUCT_DOCUMENTS_PATH)
+        # Normalize common column names so downstream logic can rely on ProductId, label_hint, search_text
+        cols = set(products.columns)
+        # Normalize id
+        if "ProductId" not in cols:
+            for alt in ("source_product_id", "product_id", "id"):
+                if alt in cols:
+                    products = products.with_columns(pl.col(alt).cast(pl.Utf8).alias("ProductId"))
+                    cols.add("ProductId")
+                    break
+        # Normalize label/title
+        if "label_hint" not in cols:
+            for alt in ("title", "product_title", "name"):
+                if alt in cols:
+                    products = products.with_columns(pl.col(alt).cast(pl.Utf8).alias("label_hint"))
+                    cols.add("label_hint")
+                    break
+        # Normalize search_text
+        if "search_text" not in cols:
+            # try description, text, or concatenate fields
+            text_parts = [c for c in ("description", "text", "search_text_raw") if c in cols]
+            if text_parts:
+                products = products.with_columns((pl.concat_str([pl.col(p).cast(pl.Utf8) for p in text_parts], " ")).alias("search_text"))
+            else:
+                # fallback to label_hint
+                products = products.with_columns(pl.col("label_hint").alias("search_text"))
     else:
         products = pl.DataFrame(
             schema={
@@ -40,7 +73,7 @@ def _load_product_documents() -> pl.DataFrame:
             }
         )
 
-    return products.with_columns(
+    products = products.with_columns(
         [
             pl.col("search_text")
             .fill_null("")
@@ -52,6 +85,10 @@ def _load_product_documents() -> pl.DataFrame:
             .alias("label_hint_lower"),
         ]
     )
+    # Ensure ProductId is string
+    if "ProductId" in products.columns:
+        products = products.with_columns(pl.col("ProductId").cast(pl.Utf8))
+    return products
 
 
 def _empty_lexical_frame() -> pl.DataFrame:
@@ -260,17 +297,29 @@ def _load_local_embeddings() -> list[dict[str, object]]:
     if not embeddings_path.exists():
         return []
 
-    frame = pl.read_parquet(embeddings_path).select(
-        [
-            "ProductId",
-            "label_hint",
-            "review_count",
-            "average_score",
-            "summary_samples",
-            "text_samples",
-            "embedding",
-        ]
+    frame = pl.read_parquet(embeddings_path)
+    id_column = (
+        "ProductId"
+        if "ProductId" in frame.columns
+        else "source_product_id"
+        if "source_product_id" in frame.columns
+        else None
     )
+    if id_column is None:
+        return []
+
+    available_columns = [
+        id_column,
+        "label_hint",
+        "review_count",
+        "average_score",
+        "summary_samples",
+        "text_samples",
+        "search_text",
+        "embedding",
+    ]
+    frame = frame.select([col for col in available_columns if col in frame.columns])
+
     rows: list[dict[str, object]] = []
     for row in frame.to_dicts():
         vector = [float(value) for value in row.get("embedding") or []]
@@ -279,12 +328,13 @@ def _load_local_embeddings() -> list[dict[str, object]]:
         )
         rows.append(
             {
-                "ProductId": row["ProductId"],
-                "label_hint": row.get("label_hint"),
+                "ProductId": row.get(id_column),
+                "label_hint": row.get("label_hint") or row.get("search_text"),
                 "review_count": int(row.get("review_count") or 0),
                 "average_score": float(row.get("average_score") or 0.0),
                 "summary_samples": row.get("summary_samples"),
                 "text_samples": row.get("text_samples"),
+                "search_text": row.get("search_text"),
                 "embedding": vector,
                 "vector_norm": vector_norm,
             }

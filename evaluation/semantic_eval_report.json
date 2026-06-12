@@ -1,0 +1,77 @@
+{
+  "queries_total": 4,
+  "avg_precision_at_k": 0.0,
+  "success_rate_at_k": 0.0,
+  "mrr": 0.0,
+  "avg_search_time_ms": 18661.75,
+  "strategies": {
+    "lexical_fallback": 4
+  },
+  "fallback_runs": 4,
+  "evaluations": [
+    {
+      "query": "dark chocolate low sugar",
+      "top_k": 3,
+      "status_code": 200,
+      "strategy": "lexical_fallback",
+      "warning": "Semantic search temporarily unavailable; lexical fallback used.",
+      "search_time_ms": 21586,
+      "metrics": {
+        "top_k": 3,
+        "precision_at_k": 0.0,
+        "success_at_k": 0.0,
+        "mrr": 0.0,
+        "relevances": []
+      },
+      "top_results": []
+    },
+    {
+      "query": "dog food for picky eater",
+      "top_k": 3,
+      "status_code": 200,
+      "strategy": "lexical_fallback",
+      "warning": "Semantic search temporarily unavailable; lexical fallback used.",
+      "search_time_ms": 17719,
+      "metrics": {
+        "top_k": 3,
+        "precision_at_k": 0.0,
+        "success_at_k": 0.0,
+        "mrr": 0.0,
+        "relevances": []
+      },
+      "top_results": []
+    },
+    {
+      "query": "strong coffee beans",
+      "top_k": 3,
+      "status_code": 200,
+      "strategy": "lexical_fallback",
+      "warning": "Semantic search temporarily unavailable; lexical fallback used.",
+      "search_time_ms": 17655,
+      "metrics": {
+        "top_k": 3,
+        "precision_at_k": 0.0,
+        "success_at_k": 0.0,
+        "mrr": 0.0,
+        "relevances": []
+      },
+      "top_results": []
+    },
+    {
+      "query": "gluten free cookies",
+      "top_k": 3,
+      "status_code": 200,
+      "strategy": "lexical_fallback",
+      "warning": "Semantic search temporarily unavailable; lexical fallback used.",
+      "search_time_ms": 17687,
+      "metrics": {
+        "top_k": 3,
+        "precision_at_k": 0.0,
+        "success_at_k": 0.0,
+        "mrr": 0.0,
+        "relevances": []
+      },
+      "top_results": []
+    }
+  ]
+}

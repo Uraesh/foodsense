@@ -69,7 +69,7 @@ services:
     environment:
       NEXT_TELEMETRY_DISABLED: "1"
       NPM_CONFIG_CACHE: /workspace/.cache/npm
-      NEXT_PUBLIC_API_URL: http://backend:8000
+      NEXT_PUBLIC_API_URL: http://localhost:8000
     working_dir: /workspace/frontend
     command: sh -c "npm install && npm run dev -- --hostname 0.0.0.0 --port ${FRONTEND_PORT:-3000}"
     volumes:
@@ -83,8 +83,6 @@ services:
       context: .
       dockerfile: docker/notebook.Dockerfile
     container_name: foodsense-notebook
-    profiles:
-      - data
     env_file:
       - .env.example
     working_dir: /workspace

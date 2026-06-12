@@ -175,7 +175,9 @@ La recommandation doit mentionner explicitement le produit correspondant `{label
 async def summarize_product(product_id: str) -> SummaryResponse:
     cached = SUMMARY_CACHE.get(product_id)
     if cached is not None:
-        return SummaryResponse(**cached.model_dump(), cached=True)
+        cached_dict = cached.model_dump()
+        cached_dict["cached"] = True
+        return SummaryResponse(**cached_dict)
 
     settings = get_settings()
     products = _load_product_documents()

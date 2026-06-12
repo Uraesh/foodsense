@@ -1,0 +1,35 @@
+[
+  {
+    "product_id": "1001",
+    "title": "Dark Chocolate 70%",
+    "score": 0.95,
+    "avg_rating": 4.6,
+    "nb_reviews": 124,
+    "description": "Rich dark chocolate with balanced bitterness and fruity notes.",
+    "snippets": ["Notes of raspberry", "Smooth mouthfeel"],
+    "category": "Chocolat",
+    "relevance_percent": 95
+  },
+  {
+    "product_id": "1002",
+    "title": "Milk Chocolate Bar",
+    "score": 0.86,
+    "avg_rating": 4.2,
+    "nb_reviews": 98,
+    "description": "Creamy milk chocolate, ideal for snacks and desserts.",
+    "snippets": ["Creamy texture", "Popular with kids"],
+    "category": "Chocolat",
+    "relevance_percent": 86
+  },
+  {
+    "product_id": "1003",
+    "title": "Chocolate Hazelnut Spread",
+    "score": 0.8,
+    "avg_rating": 4.4,
+    "nb_reviews": 210,
+    "description": "Spreadable chocolate with roasted hazelnut pieces.",
+    "snippets": ["Great on toast", "Nutty aroma"],
+    "category": "Pâte à tartiner",
+    "relevance_percent": 80
+  }
+]

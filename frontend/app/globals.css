@@ -6,6 +6,18 @@
   --background: 0 0% 100%;
 }
 
+:root {
+  --color-bg: #ffffff;
+  --color-text: #0f172a;
+  --color-surface: #ffffff;
+}
+
+.dark {
+  --color-bg: #0b1220;
+  --color-text: #e6eef8;
+  --color-surface: #071024;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -21,8 +33,8 @@ body {
       rgba(34, 197, 94, 0.06),
       transparent 55%
     ),
-    #ffffff;
-  color: #0f172a;
+    var(--color-bg);
+  color: var(--color-text);
 }
 
 /* thin custom scrollbar for filter panels */

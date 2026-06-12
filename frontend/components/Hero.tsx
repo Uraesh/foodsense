@@ -1,7 +1,18 @@
 import { Sparkles, Search, ArrowRight } from "lucide-react";
-import { popularSearches } from "@/lib/data";
 
-export default function Hero() {
+type HeroProps = {
+  query: string;
+  isLoading: boolean;
+  onQueryChange: (value: string) => void;
+  onSearch: () => void;
+};
+
+export default function Hero({
+  query,
+  isLoading,
+  onQueryChange,
+  onSearch,
+}: HeroProps) {
   return (
     <section className="mx-auto max-w-3xl px-6 pb-10 pt-6 text-center">
       <div className="mb-6 inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
@@ -24,28 +35,29 @@ export default function Hero() {
         <Search className="h-5 w-5 shrink-0 text-slate-400" />
         <input
           type="text"
-          defaultValue="Coca Cola Sans Sucres Sans Calories – Coke ZÉRO® – 1,25 L"
+          value={query}
+          onChange={(event) => onQueryChange(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              onSearch();
+            }
+          }}
           className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
           placeholder="Search for any food, brand or product..."
         />
         <button
+          type="button"
+          disabled={isLoading}
+          onClick={onSearch}
           aria-label="Search"
-          className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ArrowRight className="h-4 w-4" />
         </button>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs">
-        <span className="text-slate-400">Popular searches:</span>
-        {popularSearches.map((term) => (
-          <button
-            key={term}
-            className="rounded-full border border-brand/20 bg-brand/5 px-3 py-1 font-medium text-brand transition-colors hover:bg-brand/10"
-          >
-            {term}
-          </button>
-        ))}
+      <div className="mt-5 text-sm text-slate-500">
+        Enter a search query to explore food products and nutrition insights.
       </div>
     </section>
   );
