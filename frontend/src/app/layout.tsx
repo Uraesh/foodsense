@@ -1,24 +1,33 @@
 import type { Metadata } from "next";
+import { Fraunces, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
+import "./globals.css";
+
+const bodyFont = Manrope({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const displayFont = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "FoodSense",
-  description: "Semantic search for food products and review summaries.",
+  description: "Moteur de recherche semantique pour produits alimentaires.",
 };
-
-const bodyStyle = {
-  margin: 0,
-  minHeight: "100vh",
-  fontFamily: '"Segoe UI", sans-serif',
-  background:
-    "radial-gradient(circle at top, rgba(245, 209, 163, 0.32), transparent 32%), linear-gradient(180deg, #fffaf2 0%, #f6efe2 100%)",
-  color: "#1f1a14",
-} as const;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body style={bodyStyle}>{children}</body>
+    <html
+      lang="fr"
+      suppressHydrationWarning
+      className={`${bodyFont.variable} ${displayFont.variable}`}
+    >
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

@@ -12,14 +12,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "next": "16.2.2",
+    "next": "^16.2.4",
     "react": "19.1.1",
     "react-dom": "19.1.1"
   },
   "devDependencies": {
-    "typescript": "5.9.2",
     "@types/node": "24.3.1",
     "@types/react": "19.1.9",
-    "@types/react-dom": "19.1.9"
+    "@types/react-dom": "19.1.9",
+    "typescript": "5.9.2"
   }
 }

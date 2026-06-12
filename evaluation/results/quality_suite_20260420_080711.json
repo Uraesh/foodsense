@@ -1,0 +1,54 @@
+﻿{
+    "run_label":  "20260420_080711",
+    "started_at":  "2026-04-20T08:07:11.0542244+00:00",
+    "finished_at":  "2026-04-20T08:07:20.5155119+00:00",
+    "overall_status":  "failed",
+    "log_file":  "D:\\Licience 3 IA-BD\\Semantic-search\\evaluation\\results\\quality_suite_20260420_080711.log",
+    "project_root":  "D:\\Licience 3 IA-BD\\Semantic-search",
+    "steps":  [
+                  {
+                      "name":  "compileall",
+                      "status":  "failed",
+                      "started_at":  "2026-04-20T08:07:15.4580216+00:00",
+                      "ended_at":  "2026-04-20T08:07:15.8673388+00:00",
+                      "duration_seconds":  0.36,
+                      "error":  "No suitable Python runtime found"
+                  },
+                  {
+                      "name":  "ruff",
+                      "status":  "passed",
+                      "started_at":  "2026-04-20T08:07:15.9013391+00:00",
+                      "ended_at":  "2026-04-20T08:07:20.0273741+00:00",
+                      "duration_seconds":  4.12,
+                      "error":  null
+                  },
+                  {
+                      "name":  "pytest",
+                      "status":  "failed",
+                      "started_at":  "2026-04-20T08:07:20.0318225+00:00",
+                      "ended_at":  "2026-04-20T08:07:20.1841163+00:00",
+                      "duration_seconds":  0.11,
+                      "error":  "No suitable Python runtime found"
+                  },
+                  {
+                      "name":  "keyword_eval",
+                      "status":  "failed",
+                      "started_at":  "2026-04-20T08:07:20.1901159+00:00",
+                      "ended_at":  "2026-04-20T08:07:20.3627063+00:00",
+                      "duration_seconds":  0.14,
+                      "error":  "No suitable Python runtime found"
+                  },
+                  {
+                      "name":  "semantic_eval",
+                      "status":  "skipped",
+                      "started_at":  "2026-04-20T08:07:20.3887620+00:00",
+                      "ended_at":  "2026-04-20T08:07:20.3887620+00:00",
+                      "duration_seconds":  0,
+                      "error":  "Skipped because Ollama or Qdrant is unavailable."
+                  }
+              ],
+    "semantic_prerequisites":  {
+                                   "ollama":  false,
+                                   "qdrant":  false
+                               }
+}
