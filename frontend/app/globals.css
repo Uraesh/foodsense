@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: radial-gradient(
+      1200px 500px at 50% -10%,
+      rgba(59, 130, 246, 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 400px at 90% 0%,
+      rgba(34, 197, 94, 0.06),
+      transparent 55%
+    ),
+    #ffffff;
+  color: #0f172a;
+}
+
+/* thin custom scrollbar for filter panels */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 9999px;
+}

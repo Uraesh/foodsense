@@ -1,0 +1,16 @@
+# Dataset brut — jamais versionné
+data/raw/
+data/processed/
+
+# Variables d'environnement
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db

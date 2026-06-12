@@ -1,0 +1,397 @@
+{"kind":"deck","id":"foodsense-v1-defense","slideCount":12,"slideSize":{"width":1280,"height":720}}
+{"kind":"slide","slide":1,"id":"we1pbg"}
+{"kind":"slide","slide":2,"id":"e8djpw"}
+{"kind":"slide","slide":3,"id":"4i0wd9"}
+{"kind":"slide","slide":4,"id":"iufg24"}
+{"kind":"slide","slide":5,"id":"qg3hk5"}
+{"kind":"slide","slide":6,"id":"j3u2cx"}
+{"kind":"slide","slide":7,"id":"n70zoy"}
+{"kind":"slide","slide":8,"id":"vvcnbw"}
+{"kind":"slide","slide":9,"id":"s8005q"}
+{"kind":"slide","slide":10,"id":"58lzz2"}
+{"kind":"slide","slide":11,"id":"5bekg4"}
+{"kind":"slide","slide":12,"id":"u8ir96"}
+{"kind":"shape","slide":1,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":1,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":1,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":1,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":1,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":1,"id":"7","role":"cover contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":1,"id":"8","role":"cover accent rule","shapeType":"rect","bbox":[64,86,7,455]}
+{"kind":"textbox","slide":1,"id":"9","role":"kicker","text":"FoodSense V1","textPreview":"FoodSense V1","textChars":12,"textLines":1,"bbox":[86,88,520,26]}
+{"kind":"textbox","slide":1,"id":"10","role":"cover title","text":"Moteur de recherche semantique pour produits alimentaires","textPreview":"Moteur de recherche semantique pour produits alimentaires","textChars":57,"textLines":1,"bbox":[82,130,785,184]}
+{"kind":"textbox","slide":1,"id":"11","role":"cover subtitle","text":"Une V1 centree sur l'intention de recherche, la robustesse technique et une evaluation comparative face au lexical.","textPreview":"Une V1 centree sur l'intention de recherche, la robustesse technique et une evaluation comparative face au lexical.","textChars":115,"textLines":1,"bbox":[86,326,610,86]}
+{"kind":"shape","slide":1,"id":"12","role":"cover moment panel","shapeType":"roundRect","bbox":[86,456,390,92]}
+{"kind":"textbox","slide":1,"id":"13","role":"cover moment","text":"Rechercher par sens, pas seulement par mot-cle","textPreview":"Rechercher par sens, pas seulement par mot-cle","textChars":46,"textLines":1,"bbox":[112,478,336,40]}
+{"kind":"textbox","slide":1,"id":"14","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":2,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":2,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":2,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":2,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":2,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":2,"id":"7","role":"content contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":2,"id":"8","role":"header","text":"PROBLEME","textPreview":"PROBLEME","textChars":8,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":2,"id":"9","role":"header","text":"02 / 12","textPreview":"02 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":2,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":2,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":2,"id":"12","role":"title","text":"Pourquoi une recherche semantique ?","textPreview":"Pourquoi une recherche semantique ?","textChars":35,"textLines":1,"bbox":[64,86,760,142]}
+{"kind":"textbox","slide":2,"id":"13","role":"subtitle","text":"La recherche mot-a-mot ne suffit pas lorsque l'utilisateur exprime un besoin, une intention ou une contrainte sans connaitre le nom exact du produit.","textPreview":"La recherche mot-a-mot ne suffit pas lorsque l'utilisateur exprime un besoin, une intention ou une contrainte sans connaitre le nom exact du produit.","textChars":149,"textLines":1,"bbox":[66,234,720,70]}
+{"kind":"shape","slide":2,"id":"14","role":"card panel: Constat","shapeType":"roundRect","bbox":[84,378,355.3333333333333,228]}
+{"kind":"shape","slide":2,"id":"15","role":"card accent: Constat","shapeType":"rect","bbox":[84,378,8,228]}
+{"kind":"shape","slide":2,"id":"16","role":"icon badge","shapeType":"ellipse","bbox":[106,402,54,54]}
+{"kind":"shape","slide":2,"id":"17","role":"icon glyph","shapeType":"rect","bbox":[122,431,6,12]}
+{"kind":"shape","slide":2,"id":"18","role":"icon glyph","shapeType":"rect","bbox":[131,423,6,20]}
+{"kind":"shape","slide":2,"id":"19","role":"icon glyph","shapeType":"rect","bbox":[140,416,6,27]}
+{"kind":"textbox","slide":2,"id":"20","role":"card label","text":"Constat","textPreview":"Constat","textChars":7,"textLines":1,"bbox":[172,400,247.33333333333331,28]}
+{"kind":"textbox","slide":2,"id":"21","role":"card body: Constat","text":"Un utilisateur formule\nsouvent une intention comme\nchocolat noir pauvre en\nsucre ou gluten free\ncookies, et non un nom de\nproduit precis.","textPreview":"Un utilisateur formule | souvent une intention comme | chocolat noir pauvre en | sucre ou gluten free | cookies, et non un nom de | produit precis.","textChars":137,"textLines":6,"bbox":[108,464,307.3333333333333,120]}
+{"kind":"shape","slide":2,"id":"22","role":"card panel: Limite","shapeType":"roundRect","bbox":[463.3333333333333,378,355.3333333333333,228]}
+{"kind":"shape","slide":2,"id":"23","role":"card accent: Limite","shapeType":"rect","bbox":[463.3333333333333,378,8,228]}
+{"kind":"shape","slide":2,"id":"24","role":"icon badge","shapeType":"ellipse","bbox":[485.3333333333333,402,54,54]}
+{"kind":"shape","slide":2,"id":"25","role":"icon glyph","shapeType":"ellipse","bbox":[498.3333333333333,420,10,10]}
+{"kind":"shape","slide":2,"id":"26","role":"icon glyph","shapeType":"ellipse","bbox":[516.3333333333333,429,10,10]}
+{"kind":"shape","slide":2,"id":"27","role":"icon glyph","shapeType":"rect","bbox":[507.3333333333333,427,19,3]}
+{"kind":"textbox","slide":2,"id":"28","role":"card label","text":"Limite","textPreview":"Limite","textChars":6,"textLines":1,"bbox":[551.3333333333333,400,247.33333333333331,28]}
+{"kind":"textbox","slide":2,"id":"29","role":"card body: Limite","text":"Une recherche purement\nlexicale peut rater des\nresultats utiles si les\ntermes exacts n'apparaissent\npas ou si les formulations\ndivergent.","textPreview":"Une recherche purement | lexicale peut rater des | resultats utiles si les | termes exacts n'apparaissent | pas ou si les formulations | divergent.","textChars":137,"textLines":6,"bbox":[487.3333333333333,464,307.3333333333333,120]}
+{"kind":"shape","slide":2,"id":"30","role":"card panel: Reponse","shapeType":"roundRect","bbox":[842.6666666666666,378,355.3333333333333,228]}
+{"kind":"shape","slide":2,"id":"31","role":"card accent: Reponse","shapeType":"rect","bbox":[842.6666666666666,378,8,228]}
+{"kind":"shape","slide":2,"id":"32","role":"icon badge","shapeType":"ellipse","bbox":[864.6666666666666,402,54,54]}
+{"kind":"shape","slide":2,"id":"33","role":"icon glyph","shapeType":"roundRect","bbox":[877.6666666666666,417,26,13]}
+{"kind":"shape","slide":2,"id":"34","role":"icon glyph","shapeType":"roundRect","bbox":[882.6666666666666,426,26,13]}
+{"kind":"shape","slide":2,"id":"35","role":"icon glyph","shapeType":"roundRect","bbox":[887.6666666666666,435,20,10]}
+{"kind":"textbox","slide":2,"id":"36","role":"card label","text":"Reponse","textPreview":"Reponse","textChars":7,"textLines":1,"bbox":[930.6666666666666,400,247.33333333333331,28]}
+{"kind":"textbox","slide":2,"id":"37","role":"card body: Reponse","text":"FoodSense cherche a\nrapprocher la requete du\nsens present dans les avis\nagregees, tout en gardant un\ncomportement robuste.","textPreview":"FoodSense cherche a | rapprocher la requete du | sens present dans les avis | agregees, tout en gardant un | comportement robuste.","textChars":122,"textLines":5,"bbox":[866.6666666666666,464,307.3333333333333,120]}
+{"kind":"textbox","slide":2,"id":"38","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":3,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":3,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":3,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":3,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":3,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":3,"id":"7","role":"metrics contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":3,"id":"8","role":"header","text":"DATASET","textPreview":"DATASET","textChars":7,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":3,"id":"9","role":"header","text":"03 / 12","textPreview":"03 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":3,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":3,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":3,"id":"12","role":"title","text":"Contrainte majeure : Amazon Fine Food Reviews","textPreview":"Contrainte majeure : Amazon Fine Food Reviews","textChars":45,"textLines":1,"bbox":[64,86,700,142]}
+{"kind":"textbox","slide":3,"id":"13","role":"subtitle","text":"Le dataset est interessant pour la recherche semantique, mais il ne fournit pas un vrai catalogue produit riche avec un nom propre stable et des metadonnees nutritionnelles structurees.","textPreview":"Le dataset est interessant pour la recherche semantique, mais il ne fournit pas un vrai catalogue produit riche avec un nom propre stable et des metadonnees nutritionnelles structu","textChars":185,"textLines":1,"bbox":[66,234,700,70]}
+{"kind":"shape","slide":3,"id":"14","role":"metric panel: Unite de recherche V1","shapeType":"roundRect","bbox":[92,404,330,174]}
+{"kind":"shape","slide":3,"id":"15","role":"metric accent: Unite de recherche V1","shapeType":"rect","bbox":[92,404,330,7]}
+{"kind":"textbox","slide":3,"id":"16","role":"metric value","text":"ProductId","textPreview":"ProductId","textChars":9,"textLines":1,"bbox":[114,428,286,54]}
+{"kind":"textbox","slide":3,"id":"17","role":"metric label","text":"Unite de recherche V1","textPreview":"Unite de recherche V1","textChars":21,"textLines":1,"bbox":[116,486,282,38]}
+{"kind":"textbox","slide":3,"id":"18","role":"metric note","text":"Le produit est reconstruit autour de ProductId.","textPreview":"Le produit est reconstruit autour de ProductId.","textChars":47,"textLines":1,"bbox":[116,536,282,22]}
+{"kind":"shape","slide":3,"id":"19","role":"metric panel: Matiere principale","shapeType":"roundRect","bbox":[462,404,330,174]}
+{"kind":"shape","slide":3,"id":"20","role":"metric accent: Matiere principale","shapeType":"rect","bbox":[462,404,330,7]}
+{"kind":"textbox","slide":3,"id":"21","role":"metric value","text":"Avis agregees","textPreview":"Avis agregees","textChars":13,"textLines":1,"bbox":[484,428,286,54]}
+{"kind":"textbox","slide":3,"id":"22","role":"metric label","text":"Matiere principale","textPreview":"Matiere principale","textChars":18,"textLines":1,"bbox":[486,486,282,38]}
+{"kind":"textbox","slide":3,"id":"23","role":"metric note","text":"Summary, Text, note moyenne et nombre d'avis.","textPreview":"Summary, Text, note moyenne et nombre d'avis.","textChars":45,"textLines":1,"bbox":[486,536,282,22]}
+{"kind":"shape","slide":3,"id":"24","role":"metric panel: Limite metier","shapeType":"roundRect","bbox":[832,404,330,174]}
+{"kind":"shape","slide":3,"id":"25","role":"metric accent: Limite metier","shapeType":"rect","bbox":[832,404,330,7]}
+{"kind":"textbox","slide":3,"id":"26","role":"metric value","text":"Pas de vrai catalogue","textPreview":"Pas de vrai catalogue","textChars":21,"textLines":1,"bbox":[854,428,286,54]}
+{"kind":"textbox","slide":3,"id":"27","role":"metric label","text":"Limite metier","textPreview":"Limite metier","textChars":13,"textLines":1,"bbox":[856,486,282,38]}
+{"kind":"textbox","slide":3,"id":"28","role":"metric note","text":"Pas de product_name officiel fiable pour un RAG complet.","textPreview":"Pas de product_name officiel fiable pour un RAG complet.","textChars":56,"textLines":1,"bbox":[856,536,282,22]}
+{"kind":"textbox","slide":3,"id":"29","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":4,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":4,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":4,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":4,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":4,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":4,"id":"7","role":"content contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":4,"id":"8","role":"header","text":"CADRAGE V1","textPreview":"CADRAGE V1","textChars":10,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":4,"id":"9","role":"header","text":"04 / 12","textPreview":"04 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":4,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":4,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":4,"id":"12","role":"title","text":"Ce que la V1 fait vraiment","textPreview":"Ce que la V1 fait vraiment","textChars":26,"textLines":1,"bbox":[64,86,760,142]}
+{"kind":"textbox","slide":4,"id":"13","role":"subtitle","text":"Nous avons volontairement choisi un perimetre defendable, en livrant une recherche semantique sur documents produits reconstruits plutot qu'une recommandation nutritionnelle fragile.","textPreview":"Nous avons volontairement choisi un perimetre defendable, en livrant une recherche semantique sur documents produits reconstruits plutot qu'une recommandation nutritionnelle fragil","textChars":182,"textLines":1,"bbox":[66,234,720,70]}
+{"kind":"shape","slide":4,"id":"14","role":"card panel: Recherche","shapeType":"roundRect","bbox":[84,378,355.3333333333333,228]}
+{"kind":"shape","slide":4,"id":"15","role":"card accent: Recherche","shapeType":"rect","bbox":[84,378,8,228]}
+{"kind":"shape","slide":4,"id":"16","role":"icon badge","shapeType":"ellipse","bbox":[106,402,54,54]}
+{"kind":"shape","slide":4,"id":"17","role":"icon glyph","shapeType":"rect","bbox":[122,431,6,12]}
+{"kind":"shape","slide":4,"id":"18","role":"icon glyph","shapeType":"rect","bbox":[131,423,6,20]}
+{"kind":"shape","slide":4,"id":"19","role":"icon glyph","shapeType":"rect","bbox":[140,416,6,27]}
+{"kind":"textbox","slide":4,"id":"20","role":"card label","text":"Recherche","textPreview":"Recherche","textChars":9,"textLines":1,"bbox":[172,400,247.33333333333331,28]}
+{"kind":"textbox","slide":4,"id":"21","role":"card body: Recherche","text":"Chaque produit est\nrepresente par un document\nde recherche construit a\npartir de Summary, Text,\nnote moyenne et nombre\nd'avis.","textPreview":"Chaque produit est | represente par un document | de recherche construit a | partir de Summary, Text, | note moyenne et nombre | d'avis.","textChars":126,"textLines":6,"bbox":[108,464,307.3333333333333,120]}
+{"kind":"shape","slide":4,"id":"22","role":"card panel: Interface","shapeType":"roundRect","bbox":[463.3333333333333,378,355.3333333333333,228]}
+{"kind":"shape","slide":4,"id":"23","role":"card accent: Interface","shapeType":"rect","bbox":[463.3333333333333,378,8,228]}
+{"kind":"shape","slide":4,"id":"24","role":"icon badge","shapeType":"ellipse","bbox":[485.3333333333333,402,54,54]}
+{"kind":"shape","slide":4,"id":"25","role":"icon glyph","shapeType":"ellipse","bbox":[498.3333333333333,420,10,10]}
+{"kind":"shape","slide":4,"id":"26","role":"icon glyph","shapeType":"ellipse","bbox":[516.3333333333333,429,10,10]}
+{"kind":"shape","slide":4,"id":"27","role":"icon glyph","shapeType":"rect","bbox":[507.3333333333333,427,19,3]}
+{"kind":"textbox","slide":4,"id":"28","role":"card label","text":"Interface","textPreview":"Interface","textChars":9,"textLines":1,"bbox":[551.3333333333333,400,247.33333333333331,28]}
+{"kind":"textbox","slide":4,"id":"29","role":"card body: Interface","text":"Le frontend affiche\nProductId, label infere,\nextraits utiles, score de\npertinence et un bouton\nResume centre sur les avis\nclients.","textPreview":"Le frontend affiche | ProductId, label infere, | extraits utiles, score de | pertinence et un bouton | Resume centre sur les avis | clients.","textChars":130,"textLines":6,"bbox":[487.3333333333333,464,307.3333333333333,120]}
+{"kind":"shape","slide":4,"id":"30","role":"card panel: Honnetete","shapeType":"roundRect","bbox":[842.6666666666666,378,355.3333333333333,228]}
+{"kind":"shape","slide":4,"id":"31","role":"card accent: Honnetete","shapeType":"rect","bbox":[842.6666666666666,378,8,228]}
+{"kind":"shape","slide":4,"id":"32","role":"icon badge","shapeType":"ellipse","bbox":[864.6666666666666,402,54,54]}
+{"kind":"shape","slide":4,"id":"33","role":"icon glyph","shapeType":"roundRect","bbox":[877.6666666666666,417,26,13]}
+{"kind":"shape","slide":4,"id":"34","role":"icon glyph","shapeType":"roundRect","bbox":[882.6666666666666,426,26,13]}
+{"kind":"shape","slide":4,"id":"35","role":"icon glyph","shapeType":"roundRect","bbox":[887.6666666666666,435,20,10]}
+{"kind":"textbox","slide":4,"id":"36","role":"card label","text":"Honnetete","textPreview":"Honnetete","textChars":9,"textLines":1,"bbox":[930.6666666666666,400,247.33333333333331,28]}
+{"kind":"textbox","slide":4,"id":"37","role":"card body: Honnetete","text":"La V1 n'est ni un moteur\nmedical ni un RAG complet;\nelle pose une base fiable\npour une V2 enrichie.","textPreview":"La V1 n'est ni un moteur | medical ni un RAG complet; | elle pose une base fiable | pour une V2 enrichie.","textChars":99,"textLines":4,"bbox":[866.6666666666666,464,307.3333333333333,120]}
+{"kind":"textbox","slide":4,"id":"38","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":5,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":5,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":5,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":5,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":5,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":5,"id":"7","role":"content contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":5,"id":"8","role":"header","text":"PIPELINE","textPreview":"PIPELINE","textChars":8,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":5,"id":"9","role":"header","text":"05 / 12","textPreview":"05 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":5,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":5,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":5,"id":"12","role":"title","text":"Du CSV aux documents produits","textPreview":"Du CSV aux documents produits","textChars":29,"textLines":1,"bbox":[64,86,760,142]}
+{"kind":"textbox","slide":5,"id":"13","role":"subtitle","text":"Le pipeline prepare le corpus avant la recherche: nettoyage, agregation et generation de documents produits prets pour la vectorisation.","textPreview":"Le pipeline prepare le corpus avant la recherche: nettoyage, agregation et generation de documents produits prets pour la vectorisation.","textChars":136,"textLines":1,"bbox":[66,234,720,70]}
+{"kind":"shape","slide":5,"id":"14","role":"card panel: Nettoyage","shapeType":"roundRect","bbox":[84,378,355.3333333333333,228]}
+{"kind":"shape","slide":5,"id":"15","role":"card accent: Nettoyage","shapeType":"rect","bbox":[84,378,8,228]}
+{"kind":"shape","slide":5,"id":"16","role":"icon badge","shapeType":"ellipse","bbox":[106,402,54,54]}
+{"kind":"shape","slide":5,"id":"17","role":"icon glyph","shapeType":"rect","bbox":[122,431,6,12]}
+{"kind":"shape","slide":5,"id":"18","role":"icon glyph","shapeType":"rect","bbox":[131,423,6,20]}
+{"kind":"shape","slide":5,"id":"19","role":"icon glyph","shapeType":"rect","bbox":[140,416,6,27]}
+{"kind":"textbox","slide":5,"id":"20","role":"card label","text":"Nettoyage","textPreview":"Nettoyage","textChars":9,"textLines":1,"bbox":[172,400,247.33333333333331,28]}
+{"kind":"textbox","slide":5,"id":"21","role":"card body: Nettoyage","text":"Les donnees sont preparees\navec Polars afin de retirer\nle bruit inutile et de\nnormaliser les champs utiles\naux traitements suivants.","textPreview":"Les donnees sont preparees | avec Polars afin de retirer | le bruit inutile et de | normaliser les champs utiles | aux traitements suivants.","textChars":132,"textLines":5,"bbox":[108,464,307.3333333333333,120]}
+{"kind":"shape","slide":5,"id":"22","role":"card panel: Agregation","shapeType":"roundRect","bbox":[463.3333333333333,378,355.3333333333333,228]}
+{"kind":"shape","slide":5,"id":"23","role":"card accent: Agregation","shapeType":"rect","bbox":[463.3333333333333,378,8,228]}
+{"kind":"shape","slide":5,"id":"24","role":"icon badge","shapeType":"ellipse","bbox":[485.3333333333333,402,54,54]}
+{"kind":"shape","slide":5,"id":"25","role":"icon glyph","shapeType":"ellipse","bbox":[498.3333333333333,420,10,10]}
+{"kind":"shape","slide":5,"id":"26","role":"icon glyph","shapeType":"ellipse","bbox":[516.3333333333333,429,10,10]}
+{"kind":"shape","slide":5,"id":"27","role":"icon glyph","shapeType":"rect","bbox":[507.3333333333333,427,19,3]}
+{"kind":"textbox","slide":5,"id":"28","role":"card label","text":"Agregation","textPreview":"Agregation","textChars":10,"textLines":1,"bbox":[551.3333333333333,400,247.33333333333331,28]}
+{"kind":"textbox","slide":5,"id":"29","role":"card body: Agregation","text":"Les reviews sont regroupees\npar ProductId pour\nreconstruire un document\nplus riche que chaque avis\nisole.","textPreview":"Les reviews sont regroupees | par ProductId pour | reconstruire un document | plus riche que chaque avis | isole.","textChars":105,"textLines":5,"bbox":[487.3333333333333,464,307.3333333333333,120]}
+{"kind":"shape","slide":5,"id":"30","role":"card panel: Artefacts","shapeType":"roundRect","bbox":[842.6666666666666,378,355.3333333333333,228]}
+{"kind":"shape","slide":5,"id":"31","role":"card accent: Artefacts","shapeType":"rect","bbox":[842.6666666666666,378,8,228]}
+{"kind":"shape","slide":5,"id":"32","role":"icon badge","shapeType":"ellipse","bbox":[864.6666666666666,402,54,54]}
+{"kind":"shape","slide":5,"id":"33","role":"icon glyph","shapeType":"roundRect","bbox":[877.6666666666666,417,26,13]}
+{"kind":"shape","slide":5,"id":"34","role":"icon glyph","shapeType":"roundRect","bbox":[882.6666666666666,426,26,13]}
+{"kind":"shape","slide":5,"id":"35","role":"icon glyph","shapeType":"roundRect","bbox":[887.6666666666666,435,20,10]}
+{"kind":"textbox","slide":5,"id":"36","role":"card label","text":"Artefacts","textPreview":"Artefacts","textChars":9,"textLines":1,"bbox":[930.6666666666666,400,247.33333333333331,28]}
+{"kind":"textbox","slide":5,"id":"37","role":"card body: Artefacts","text":"Le pipeline produit des\nfichiers preprocesses et des\nembeddings locaux qui\nalimentent ensuite le\nbackend et Qdrant.","textPreview":"Le pipeline produit des | fichiers preprocesses et des | embeddings locaux qui | alimentent ensuite le | backend et Qdrant.","textChars":115,"textLines":5,"bbox":[866.6666666666666,464,307.3333333333333,120]}
+{"kind":"textbox","slide":5,"id":"38","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":6,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":6,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":6,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":6,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":6,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":6,"id":"7","role":"metrics contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":6,"id":"8","role":"header","text":"ARCHITECTURE","textPreview":"ARCHITECTURE","textChars":12,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":6,"id":"9","role":"header","text":"06 / 12","textPreview":"06 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":6,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":6,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":6,"id":"12","role":"title","text":"Architecture technique de FoodSense","textPreview":"Architecture technique de FoodSense","textChars":35,"textLines":1,"bbox":[64,86,700,142]}
+{"kind":"textbox","slide":6,"id":"13","role":"subtitle","text":"Le systeme s'appuie sur une separation claire entre interface, API, vectorisation et stockage vectoriel.","textPreview":"Le systeme s'appuie sur une separation claire entre interface, API, vectorisation et stockage vectoriel.","textChars":104,"textLines":1,"bbox":[66,234,700,70]}
+{"kind":"shape","slide":6,"id":"14","role":"metric panel: Frontend","shapeType":"roundRect","bbox":[92,404,330,174]}
+{"kind":"shape","slide":6,"id":"15","role":"metric accent: Frontend","shapeType":"rect","bbox":[92,404,330,7]}
+{"kind":"textbox","slide":6,"id":"16","role":"metric value","text":"Next.js","textPreview":"Next.js","textChars":7,"textLines":1,"bbox":[114,428,286,54]}
+{"kind":"textbox","slide":6,"id":"17","role":"metric label","text":"Frontend","textPreview":"Frontend","textChars":8,"textLines":1,"bbox":[116,486,282,38]}
+{"kind":"textbox","slide":6,"id":"18","role":"metric note","text":"Experience de recherche et affichage des resultats.","textPreview":"Experience de recherche et affichage des resultats.","textChars":51,"textLines":1,"bbox":[116,536,282,22]}
+{"kind":"shape","slide":6,"id":"19","role":"metric panel: Backend","shapeType":"roundRect","bbox":[462,404,330,174]}
+{"kind":"shape","slide":6,"id":"20","role":"metric accent: Backend","shapeType":"rect","bbox":[462,404,330,7]}
+{"kind":"textbox","slide":6,"id":"21","role":"metric value","text":"FastAPI","textPreview":"FastAPI","textChars":7,"textLines":1,"bbox":[484,428,286,54]}
+{"kind":"textbox","slide":6,"id":"22","role":"metric label","text":"Backend","textPreview":"Backend","textChars":7,"textLines":1,"bbox":[486,486,282,38]}
+{"kind":"textbox","slide":6,"id":"23","role":"metric note","text":"Routes principales: /search et /summarize/{product_id}.","textPreview":"Routes principales: /search et /summarize/{product_id}.","textChars":55,"textLines":1,"bbox":[486,536,282,22]}
+{"kind":"shape","slide":6,"id":"24","role":"metric panel: Recherche","shapeType":"roundRect","bbox":[832,404,330,174]}
+{"kind":"shape","slide":6,"id":"25","role":"metric accent: Recherche","shapeType":"rect","bbox":[832,404,330,7]}
+{"kind":"textbox","slide":6,"id":"26","role":"metric value","text":"Qdrant + Ollama","textPreview":"Qdrant + Ollama","textChars":15,"textLines":1,"bbox":[854,428,286,54]}
+{"kind":"textbox","slide":6,"id":"27","role":"metric label","text":"Recherche","textPreview":"Recherche","textChars":9,"textLines":1,"bbox":[856,486,282,38]}
+{"kind":"textbox","slide":6,"id":"28","role":"metric note","text":"Base vectorielle Qdrant et embeddings bge-m3 localement.","textPreview":"Base vectorielle Qdrant et embeddings bge-m3 localement.","textChars":56,"textLines":1,"bbox":[856,536,282,22]}
+{"kind":"textbox","slide":6,"id":"29","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":7,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":7,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":7,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":7,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":7,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":7,"id":"7","role":"content contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":7,"id":"8","role":"header","text":"RETRIEVAL","textPreview":"RETRIEVAL","textChars":9,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":7,"id":"9","role":"header","text":"07 / 12","textPreview":"07 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":7,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":7,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":7,"id":"12","role":"title","text":"Logique de recherche: semantic_hybrid","textPreview":"Logique de recherche: semantic_hybrid","textChars":37,"textLines":1,"bbox":[64,86,760,142]}
+{"kind":"textbox","slide":7,"id":"13","role":"subtitle","text":"La V1 combine un signal semantique et un signal lexical afin de conserver une bonne robustesse meme sur machine locale contrainte.","textPreview":"La V1 combine un signal semantique et un signal lexical afin de conserver une bonne robustesse meme sur machine locale contrainte.","textChars":130,"textLines":1,"bbox":[66,234,720,70]}
+{"kind":"shape","slide":7,"id":"14","role":"card panel: Semantique","shapeType":"roundRect","bbox":[84,378,355.3333333333333,228]}
+{"kind":"shape","slide":7,"id":"15","role":"card accent: Semantique","shapeType":"rect","bbox":[84,378,8,228]}
+{"kind":"shape","slide":7,"id":"16","role":"icon badge","shapeType":"ellipse","bbox":[106,402,54,54]}
+{"kind":"shape","slide":7,"id":"17","role":"icon glyph","shapeType":"rect","bbox":[122,431,6,12]}
+{"kind":"shape","slide":7,"id":"18","role":"icon glyph","shapeType":"rect","bbox":[131,423,6,20]}
+{"kind":"shape","slide":7,"id":"19","role":"icon glyph","shapeType":"rect","bbox":[140,416,6,27]}
+{"kind":"textbox","slide":7,"id":"20","role":"card label","text":"Semantique","textPreview":"Semantique","textChars":10,"textLines":1,"bbox":[172,400,247.33333333333331,28]}
+{"kind":"textbox","slide":7,"id":"21","role":"card body: Semantique","text":"La requete utilisateur est\nvectorisee avec bge-m3 puis\ncomparee aux documents\nproduits indexes dans\nQdrant.","textPreview":"La requete utilisateur est | vectorisee avec bge-m3 puis | comparee aux documents | produits indexes dans | Qdrant.","textChars":107,"textLines":5,"bbox":[108,464,307.3333333333333,120]}
+{"kind":"shape","slide":7,"id":"22","role":"card panel: Hybride","shapeType":"roundRect","bbox":[463.3333333333333,378,355.3333333333333,228]}
+{"kind":"shape","slide":7,"id":"23","role":"card accent: Hybride","shapeType":"rect","bbox":[463.3333333333333,378,8,228]}
+{"kind":"shape","slide":7,"id":"24","role":"icon badge","shapeType":"ellipse","bbox":[485.3333333333333,402,54,54]}
+{"kind":"shape","slide":7,"id":"25","role":"icon glyph","shapeType":"ellipse","bbox":[498.3333333333333,420,10,10]}
+{"kind":"shape","slide":7,"id":"26","role":"icon glyph","shapeType":"ellipse","bbox":[516.3333333333333,429,10,10]}
+{"kind":"shape","slide":7,"id":"27","role":"icon glyph","shapeType":"rect","bbox":[507.3333333333333,427,19,3]}
+{"kind":"textbox","slide":7,"id":"28","role":"card label","text":"Hybride","textPreview":"Hybride","textChars":7,"textLines":1,"bbox":[551.3333333333333,400,247.33333333333331,28]}
+{"kind":"textbox","slide":7,"id":"29","role":"card body: Hybride","text":"Le classement final combine\nun score semantique et un\nsignal lexical pour\nrenforcer les cas ou les\nmots comptent fortement.","textPreview":"Le classement final combine | un score semantique et un | signal lexical pour | renforcer les cas ou les | mots comptent fortement.","textChars":123,"textLines":5,"bbox":[487.3333333333333,464,307.3333333333333,120]}
+{"kind":"shape","slide":7,"id":"30","role":"card panel: Fallback","shapeType":"roundRect","bbox":[842.6666666666666,378,355.3333333333333,228]}
+{"kind":"shape","slide":7,"id":"31","role":"card accent: Fallback","shapeType":"rect","bbox":[842.6666666666666,378,8,228]}
+{"kind":"shape","slide":7,"id":"32","role":"icon badge","shapeType":"ellipse","bbox":[864.6666666666666,402,54,54]}
+{"kind":"shape","slide":7,"id":"33","role":"icon glyph","shapeType":"roundRect","bbox":[877.6666666666666,417,26,13]}
+{"kind":"shape","slide":7,"id":"34","role":"icon glyph","shapeType":"roundRect","bbox":[882.6666666666666,426,26,13]}
+{"kind":"shape","slide":7,"id":"35","role":"icon glyph","shapeType":"roundRect","bbox":[887.6666666666666,435,20,10]}
+{"kind":"textbox","slide":7,"id":"36","role":"card label","text":"Fallback","textPreview":"Fallback","textChars":8,"textLines":1,"bbox":[930.6666666666666,400,247.33333333333331,28]}
+{"kind":"textbox","slide":7,"id":"37","role":"card body: Fallback","text":"Si l'embedding echoue, le\nbackend bascule vers\nlexical_fallback afin de\ngarantir une reponse plutot\nqu'un plantage.","textPreview":"Si l'embedding echoue, le | backend bascule vers | lexical_fallback afin de | garantir une reponse plutot | qu'un plantage.","textChars":115,"textLines":5,"bbox":[866.6666666666666,464,307.3333333333333,120]}
+{"kind":"textbox","slide":7,"id":"38","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":8,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":8,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":8,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":8,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":8,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":8,"id":"7","role":"content contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":8,"id":"8","role":"header","text":"INTERFACE","textPreview":"INTERFACE","textChars":9,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":8,"id":"9","role":"header","text":"08 / 12","textPreview":"08 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":8,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":8,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":8,"id":"12","role":"title","text":"Experience utilisateur de la V1","textPreview":"Experience utilisateur de la V1","textChars":31,"textLines":1,"bbox":[64,86,760,142]}
+{"kind":"textbox","slide":8,"id":"13","role":"subtitle","text":"L'interface reste volontairement simple: une recherche, des resultats classes, des indices utiles et un bouton Resume pour lire plus vite les avis clients.","textPreview":"L'interface reste volontairement simple: une recherche, des resultats classes, des indices utiles et un bouton Resume pour lire plus vite les avis clients.","textChars":155,"textLines":1,"bbox":[66,234,720,70]}
+{"kind":"shape","slide":8,"id":"14","role":"card panel: Resultats","shapeType":"roundRect","bbox":[84,378,355.3333333333333,228]}
+{"kind":"shape","slide":8,"id":"15","role":"card accent: Resultats","shapeType":"rect","bbox":[84,378,8,228]}
+{"kind":"shape","slide":8,"id":"16","role":"icon badge","shapeType":"ellipse","bbox":[106,402,54,54]}
+{"kind":"shape","slide":8,"id":"17","role":"icon glyph","shapeType":"rect","bbox":[122,431,6,12]}
+{"kind":"shape","slide":8,"id":"18","role":"icon glyph","shapeType":"rect","bbox":[131,423,6,20]}
+{"kind":"shape","slide":8,"id":"19","role":"icon glyph","shapeType":"rect","bbox":[140,416,6,27]}
+{"kind":"textbox","slide":8,"id":"20","role":"card label","text":"Resultats","textPreview":"Resultats","textChars":9,"textLines":1,"bbox":[172,400,247.33333333333331,28]}
+{"kind":"textbox","slide":8,"id":"21","role":"card body: Resultats","text":"Chaque resultat expose\nProductId, un label infere,\ndes extraits utiles, une\nnote et un score de\npertinence.","textPreview":"Chaque resultat expose | ProductId, un label infere, | des extraits utiles, une | note et un score de | pertinence.","textChars":107,"textLines":5,"bbox":[108,464,307.3333333333333,120]}
+{"kind":"shape","slide":8,"id":"22","role":"card panel: Resume","shapeType":"roundRect","bbox":[463.3333333333333,378,355.3333333333333,228]}
+{"kind":"shape","slide":8,"id":"23","role":"card accent: Resume","shapeType":"rect","bbox":[463.3333333333333,378,8,228]}
+{"kind":"shape","slide":8,"id":"24","role":"icon badge","shapeType":"ellipse","bbox":[485.3333333333333,402,54,54]}
+{"kind":"shape","slide":8,"id":"25","role":"icon glyph","shapeType":"ellipse","bbox":[498.3333333333333,420,10,10]}
+{"kind":"shape","slide":8,"id":"26","role":"icon glyph","shapeType":"ellipse","bbox":[516.3333333333333,429,10,10]}
+{"kind":"shape","slide":8,"id":"27","role":"icon glyph","shapeType":"rect","bbox":[507.3333333333333,427,19,3]}
+{"kind":"textbox","slide":8,"id":"28","role":"card label","text":"Resume","textPreview":"Resume","textChars":6,"textLines":1,"bbox":[551.3333333333333,400,247.33333333333331,28]}
+{"kind":"textbox","slide":8,"id":"29","role":"card body: Resume","text":"Le bouton Resume reste\ncentral dans le cahier des\ncharges; il repose par\ndefaut sur une synthese\nextractive stable.","textPreview":"Le bouton Resume reste | central dans le cahier des | charges; il repose par | defaut sur une synthese | extractive stable.","textChars":115,"textLines":5,"bbox":[487.3333333333333,464,307.3333333333333,120]}
+{"kind":"shape","slide":8,"id":"30","role":"card panel: Transparence","shapeType":"roundRect","bbox":[842.6666666666666,378,355.3333333333333,228]}
+{"kind":"shape","slide":8,"id":"31","role":"card accent: Transparence","shapeType":"rect","bbox":[842.6666666666666,378,8,228]}
+{"kind":"shape","slide":8,"id":"32","role":"icon badge","shapeType":"ellipse","bbox":[864.6666666666666,402,54,54]}
+{"kind":"shape","slide":8,"id":"33","role":"icon glyph","shapeType":"roundRect","bbox":[877.6666666666666,417,26,13]}
+{"kind":"shape","slide":8,"id":"34","role":"icon glyph","shapeType":"roundRect","bbox":[882.6666666666666,426,26,13]}
+{"kind":"shape","slide":8,"id":"35","role":"icon glyph","shapeType":"roundRect","bbox":[887.6666666666666,435,20,10]}
+{"kind":"textbox","slide":8,"id":"36","role":"card label","text":"Transparence","textPreview":"Transparence","textChars":12,"textLines":1,"bbox":[930.6666666666666,400,247.33333333333331,28]}
+{"kind":"textbox","slide":8,"id":"37","role":"card body: Transparence","text":"Si le backend tombe en\nlexical_fallback,\nl'interface peut l'indiquer\nhonnetement a l'utilisateur.","textPreview":"Si le backend tombe en | lexical_fallback, | l'interface peut l'indiquer | honnetement a l'utilisateur.","textChars":97,"textLines":4,"bbox":[866.6666666666666,464,307.3333333333333,120]}
+{"kind":"textbox","slide":8,"id":"38","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":9,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":9,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":9,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":9,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":9,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":9,"id":"7","role":"metrics contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":9,"id":"8","role":"header","text":"EVALUATION","textPreview":"EVALUATION","textChars":10,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":9,"id":"9","role":"header","text":"09 / 12","textPreview":"09 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":9,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":9,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":9,"id":"12","role":"title","text":"Comparaison avec une baseline lexicale","textPreview":"Comparaison avec une baseline lexicale","textChars":38,"textLines":1,"bbox":[64,86,700,142]}
+{"kind":"textbox","slide":9,"id":"13","role":"subtitle","text":"Nous avons evalue la V1 sur un petit benchmark avec trois metriques: Precision@3, Success@3 et MRR.","textPreview":"Nous avons evalue la V1 sur un petit benchmark avec trois metriques: Precision@3, Success@3 et MRR.","textChars":99,"textLines":1,"bbox":[66,234,700,70]}
+{"kind":"shape","slide":9,"id":"14","role":"metric panel: Precision@3 semantique","shapeType":"roundRect","bbox":[92,404,330,174]}
+{"kind":"shape","slide":9,"id":"15","role":"metric accent: Precision@3 semantique","shapeType":"rect","bbox":[92,404,330,7]}
+{"kind":"textbox","slide":9,"id":"16","role":"metric value","text":"0.75","textPreview":"0.75","textChars":4,"textLines":1,"bbox":[114,428,286,54]}
+{"kind":"textbox","slide":9,"id":"17","role":"metric label","text":"Precision@3 semantique","textPreview":"Precision@3 semantique","textChars":22,"textLines":1,"bbox":[116,486,282,38]}
+{"kind":"textbox","slide":9,"id":"18","role":"metric note","text":"Baseline lexicale: 0.6667.","textPreview":"Baseline lexicale: 0.6667.","textChars":26,"textLines":1,"bbox":[116,536,282,22]}
+{"kind":"shape","slide":9,"id":"19","role":"metric panel: Success@3 semantique","shapeType":"roundRect","bbox":[462,404,330,174]}
+{"kind":"shape","slide":9,"id":"20","role":"metric accent: Success@3 semantique","shapeType":"rect","bbox":[462,404,330,7]}
+{"kind":"textbox","slide":9,"id":"21","role":"metric value","text":"1.00","textPreview":"1.00","textChars":4,"textLines":1,"bbox":[484,428,286,54]}
+{"kind":"textbox","slide":9,"id":"22","role":"metric label","text":"Success@3 semantique","textPreview":"Success@3 semantique","textChars":20,"textLines":1,"bbox":[486,486,282,38]}
+{"kind":"textbox","slide":9,"id":"23","role":"metric note","text":"Baseline lexicale: 0.75.","textPreview":"Baseline lexicale: 0.75.","textChars":24,"textLines":1,"bbox":[486,536,282,22]}
+{"kind":"shape","slide":9,"id":"24","role":"metric panel: MRR semantique","shapeType":"roundRect","bbox":[832,404,330,174]}
+{"kind":"shape","slide":9,"id":"25","role":"metric accent: MRR semantique","shapeType":"rect","bbox":[832,404,330,7]}
+{"kind":"textbox","slide":9,"id":"26","role":"metric value","text":"0.8333","textPreview":"0.8333","textChars":6,"textLines":1,"bbox":[854,428,286,54]}
+{"kind":"textbox","slide":9,"id":"27","role":"metric label","text":"MRR semantique","textPreview":"MRR semantique","textChars":14,"textLines":1,"bbox":[856,486,282,38]}
+{"kind":"textbox","slide":9,"id":"28","role":"metric note","text":"Baseline lexicale: 0.75.","textPreview":"Baseline lexicale: 0.75.","textChars":24,"textLines":1,"bbox":[856,536,282,22]}
+{"kind":"textbox","slide":9,"id":"29","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":10,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":10,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":10,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":10,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":10,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":10,"id":"7","role":"content contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":10,"id":"8","role":"header","text":"DEMO","textPreview":"DEMO","textChars":4,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":10,"id":"9","role":"header","text":"10 / 12","textPreview":"10 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":10,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":10,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":10,"id":"12","role":"title","text":"Scenario de demonstration conseille","textPreview":"Scenario de demonstration conseille","textChars":35,"textLines":1,"bbox":[64,86,760,142]}
+{"kind":"textbox","slide":10,"id":"13","role":"subtitle","text":"La demonstration doit etre courte, stable et centree sur une preuve claire de valeur.","textPreview":"La demonstration doit etre courte, stable et centree sur une preuve claire de valeur.","textChars":85,"textLines":1,"bbox":[66,234,720,70]}
+{"kind":"shape","slide":10,"id":"14","role":"card panel: 1. Requete","shapeType":"roundRect","bbox":[84,378,355.3333333333333,228]}
+{"kind":"shape","slide":10,"id":"15","role":"card accent: 1. Requete","shapeType":"rect","bbox":[84,378,8,228]}
+{"kind":"shape","slide":10,"id":"16","role":"icon badge","shapeType":"ellipse","bbox":[106,402,54,54]}
+{"kind":"shape","slide":10,"id":"17","role":"icon glyph","shapeType":"rect","bbox":[122,431,6,12]}
+{"kind":"shape","slide":10,"id":"18","role":"icon glyph","shapeType":"rect","bbox":[131,423,6,20]}
+{"kind":"shape","slide":10,"id":"19","role":"icon glyph","shapeType":"rect","bbox":[140,416,6,27]}
+{"kind":"textbox","slide":10,"id":"20","role":"card label","text":"1. Requete","textPreview":"1. Requete","textChars":10,"textLines":1,"bbox":[172,400,247.33333333333331,28]}
+{"kind":"textbox","slide":10,"id":"21","role":"card body: 1. Requete","text":"Lancer une requete simple et\ncredible comme dark\nchocolate low sugar ou\ngluten free cookies.","textPreview":"Lancer une requete simple et | credible comme dark | chocolate low sugar ou | gluten free cookies.","textChars":92,"textLines":4,"bbox":[108,464,307.3333333333333,120]}
+{"kind":"shape","slide":10,"id":"22","role":"card panel: 2. Lecture","shapeType":"roundRect","bbox":[463.3333333333333,378,355.3333333333333,228]}
+{"kind":"shape","slide":10,"id":"23","role":"card accent: 2. Lecture","shapeType":"rect","bbox":[463.3333333333333,378,8,228]}
+{"kind":"shape","slide":10,"id":"24","role":"icon badge","shapeType":"ellipse","bbox":[485.3333333333333,402,54,54]}
+{"kind":"shape","slide":10,"id":"25","role":"icon glyph","shapeType":"ellipse","bbox":[498.3333333333333,420,10,10]}
+{"kind":"shape","slide":10,"id":"26","role":"icon glyph","shapeType":"ellipse","bbox":[516.3333333333333,429,10,10]}
+{"kind":"shape","slide":10,"id":"27","role":"icon glyph","shapeType":"rect","bbox":[507.3333333333333,427,19,3]}
+{"kind":"textbox","slide":10,"id":"28","role":"card label","text":"2. Lecture","textPreview":"2. Lecture","textChars":10,"textLines":1,"bbox":[551.3333333333333,400,247.33333333333331,28]}
+{"kind":"textbox","slide":10,"id":"29","role":"card body: 2. Lecture","text":"Montrer les resultats\nclasses, commenter le score\nde pertinence et rappeler\nque l'unite retournee est\nProductId.","textPreview":"Montrer les resultats | classes, commenter le score | de pertinence et rappeler | que l'unite retournee est | ProductId.","textChars":112,"textLines":5,"bbox":[487.3333333333333,464,307.3333333333333,120]}
+{"kind":"shape","slide":10,"id":"30","role":"card panel: 3. Resume","shapeType":"roundRect","bbox":[842.6666666666666,378,355.3333333333333,228]}
+{"kind":"shape","slide":10,"id":"31","role":"card accent: 3. Resume","shapeType":"rect","bbox":[842.6666666666666,378,8,228]}
+{"kind":"shape","slide":10,"id":"32","role":"icon badge","shapeType":"ellipse","bbox":[864.6666666666666,402,54,54]}
+{"kind":"shape","slide":10,"id":"33","role":"icon glyph","shapeType":"roundRect","bbox":[877.6666666666666,417,26,13]}
+{"kind":"shape","slide":10,"id":"34","role":"icon glyph","shapeType":"roundRect","bbox":[882.6666666666666,426,26,13]}
+{"kind":"shape","slide":10,"id":"35","role":"icon glyph","shapeType":"roundRect","bbox":[887.6666666666666,435,20,10]}
+{"kind":"textbox","slide":10,"id":"36","role":"card label","text":"3. Resume","textPreview":"3. Resume","textChars":9,"textLines":1,"bbox":[930.6666666666666,400,247.33333333333331,28]}
+{"kind":"textbox","slide":10,"id":"37","role":"card body: 3. Resume","text":"Cliquer sur Resume pour\nmontrer la synthese des avis\nclients et illustrer la\nvaleur de lecture rapide.","textPreview":"Cliquer sur Resume pour | montrer la synthese des avis | clients et illustrer la | valeur de lecture rapide.","textChars":102,"textLines":4,"bbox":[866.6666666666666,464,307.3333333333333,120]}
+{"kind":"textbox","slide":10,"id":"38","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":11,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":11,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":11,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":11,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":11,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":11,"id":"7","role":"content contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":11,"id":"8","role":"header","text":"LIMITES","textPreview":"LIMITES","textChars":7,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":11,"id":"9","role":"header","text":"11 / 12","textPreview":"11 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":11,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":11,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":11,"id":"12","role":"title","text":"Limites identifiees en V1","textPreview":"Limites identifiees en V1","textChars":25,"textLines":1,"bbox":[64,86,760,142]}
+{"kind":"textbox","slide":11,"id":"13","role":"subtitle","text":"La V1 est solide techniquement, mais elle reste limitee par le dataset et par le cout local de l'inference d'embedding.","textPreview":"La V1 est solide techniquement, mais elle reste limitee par le dataset et par le cout local de l'inference d'embedding.","textChars":119,"textLines":1,"bbox":[66,234,720,70]}
+{"kind":"shape","slide":11,"id":"14","role":"card panel: Dataset","shapeType":"roundRect","bbox":[84,378,355.3333333333333,228]}
+{"kind":"shape","slide":11,"id":"15","role":"card accent: Dataset","shapeType":"rect","bbox":[84,378,8,228]}
+{"kind":"shape","slide":11,"id":"16","role":"icon badge","shapeType":"ellipse","bbox":[106,402,54,54]}
+{"kind":"shape","slide":11,"id":"17","role":"icon glyph","shapeType":"rect","bbox":[122,431,6,12]}
+{"kind":"shape","slide":11,"id":"18","role":"icon glyph","shapeType":"rect","bbox":[131,423,6,20]}
+{"kind":"shape","slide":11,"id":"19","role":"icon glyph","shapeType":"rect","bbox":[140,416,6,27]}
+{"kind":"textbox","slide":11,"id":"20","role":"card label","text":"Dataset","textPreview":"Dataset","textChars":7,"textLines":1,"bbox":[172,400,247.33333333333331,28]}
+{"kind":"textbox","slide":11,"id":"21","role":"card body: Dataset","text":"L'absence de vrais noms de\nproduits et de metadonnees\nnutritionnelles empeche une\nrecherche produit riche ou\nun RAG bien ancre.","textPreview":"L'absence de vrais noms de | produits et de metadonnees | nutritionnelles empeche une | recherche produit riche ou | un RAG bien ancre.","textChars":127,"textLines":5,"bbox":[108,464,307.3333333333333,120]}
+{"kind":"shape","slide":11,"id":"22","role":"card panel: Ressources","shapeType":"roundRect","bbox":[463.3333333333333,378,355.3333333333333,228]}
+{"kind":"shape","slide":11,"id":"23","role":"card accent: Ressources","shapeType":"rect","bbox":[463.3333333333333,378,8,228]}
+{"kind":"shape","slide":11,"id":"24","role":"icon badge","shapeType":"ellipse","bbox":[485.3333333333333,402,54,54]}
+{"kind":"shape","slide":11,"id":"25","role":"icon glyph","shapeType":"ellipse","bbox":[498.3333333333333,420,10,10]}
+{"kind":"shape","slide":11,"id":"26","role":"icon glyph","shapeType":"ellipse","bbox":[516.3333333333333,429,10,10]}
+{"kind":"shape","slide":11,"id":"27","role":"icon glyph","shapeType":"rect","bbox":[507.3333333333333,427,19,3]}
+{"kind":"textbox","slide":11,"id":"28","role":"card label","text":"Ressources","textPreview":"Ressources","textChars":10,"textLines":1,"bbox":[551.3333333333333,400,247.33333333333331,28]}
+{"kind":"textbox","slide":11,"id":"29","role":"card body: Ressources","text":"Sur machine locale,\nl'embedding avec Ollama peut\ndevenir fragile lorsque la\nRAM est sous pression.","textPreview":"Sur machine locale, | l'embedding avec Ollama peut | devenir fragile lorsque la | RAM est sous pression.","textChars":98,"textLines":4,"bbox":[487.3333333333333,464,307.3333333333333,120]}
+{"kind":"shape","slide":11,"id":"30","role":"card panel: Benchmark","shapeType":"roundRect","bbox":[842.6666666666666,378,355.3333333333333,228]}
+{"kind":"shape","slide":11,"id":"31","role":"card accent: Benchmark","shapeType":"rect","bbox":[842.6666666666666,378,8,228]}
+{"kind":"shape","slide":11,"id":"32","role":"icon badge","shapeType":"ellipse","bbox":[864.6666666666666,402,54,54]}
+{"kind":"shape","slide":11,"id":"33","role":"icon glyph","shapeType":"roundRect","bbox":[877.6666666666666,417,26,13]}
+{"kind":"shape","slide":11,"id":"34","role":"icon glyph","shapeType":"roundRect","bbox":[882.6666666666666,426,26,13]}
+{"kind":"shape","slide":11,"id":"35","role":"icon glyph","shapeType":"roundRect","bbox":[887.6666666666666,435,20,10]}
+{"kind":"textbox","slide":11,"id":"36","role":"card label","text":"Benchmark","textPreview":"Benchmark","textChars":9,"textLines":1,"bbox":[930.6666666666666,400,247.33333333333331,28]}
+{"kind":"textbox","slide":11,"id":"37","role":"card body: Benchmark","text":"Le jeu de requetes reste\nencore petit; une evaluation\nV2 devra etre plus large et\nmieux annotee.","textPreview":"Le jeu de requetes reste | encore petit; une evaluation | V2 devra etre plus large et | mieux annotee.","textChars":96,"textLines":4,"bbox":[866.6666666666666,464,307.3333333333333,120]}
+{"kind":"textbox","slide":11,"id":"38","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
+{"kind":"shape","slide":12,"id":"2","role":"decor top left","shapeType":"ellipse","bbox":[-120,-90,420,320]}
+{"kind":"shape","slide":12,"id":"3","role":"decor top right","shapeType":"ellipse","bbox":[1000,-40,260,220]}
+{"kind":"shape","slide":12,"id":"4","role":"decor bottom right","shapeType":"ellipse","bbox":[920,520,360,260]}
+{"kind":"shape","slide":12,"id":"5","role":"main canvas","shapeType":"roundRect","bbox":[56,92,1168,556]}
+{"kind":"image","slide":12,"id":"6","role":"fallback art plate","path":"fallback-data-url","bbox":[0,0,1280,720]}
+{"kind":"shape","slide":12,"id":"7","role":"metrics contrast overlay","shapeType":"rect","bbox":[0,0,1280,720]}
+{"kind":"textbox","slide":12,"id":"8","role":"header","text":"SUITE","textPreview":"SUITE","textChars":5,"textLines":1,"bbox":[64,34,430,24]}
+{"kind":"textbox","slide":12,"id":"9","role":"header","text":"12 / 12","textPreview":"12 / 12","textChars":7,"textLines":1,"bbox":[1114,34,104,24]}
+{"kind":"shape","slide":12,"id":"10","role":"header rule","shapeType":"rect","bbox":[64,64,1152,2]}
+{"kind":"shape","slide":12,"id":"11","role":"header marker","shapeType":"ellipse","bbox":[57,57,16,16]}
+{"kind":"textbox","slide":12,"id":"12","role":"title","text":"Vision V2","textPreview":"Vision V2","textChars":9,"textLines":1,"bbox":[64,86,700,142]}
+{"kind":"textbox","slide":12,"id":"13","role":"subtitle","text":"La V2 visera un dataset enrichi avec de vrais noms de produits, une recherche plus propre et une generation mieux ancree.","textPreview":"La V2 visera un dataset enrichi avec de vrais noms de produits, une recherche plus propre et une generation mieux ancree.","textChars":121,"textLines":1,"bbox":[66,234,700,70]}
+{"kind":"shape","slide":12,"id":"14","role":"metric panel: Vrai product_name","shapeType":"roundRect","bbox":[92,404,330,174]}
+{"kind":"shape","slide":12,"id":"15","role":"metric accent: Vrai product_name","shapeType":"rect","bbox":[92,404,330,7]}
+{"kind":"textbox","slide":12,"id":"16","role":"metric value","text":"Dataset enrichi","textPreview":"Dataset enrichi","textChars":15,"textLines":1,"bbox":[114,428,286,54]}
+{"kind":"textbox","slide":12,"id":"17","role":"metric label","text":"Vrai product_name","textPreview":"Vrai product_name","textChars":17,"textLines":1,"bbox":[116,486,282,38]}
+{"kind":"textbox","slide":12,"id":"18","role":"metric note","text":"Base plus favorable a une recherche produit et a un futur RAG.","textPreview":"Base plus favorable a une recherche produit et a un futur RAG.","textChars":62,"textLines":1,"bbox":[116,536,282,22]}
+{"kind":"shape","slide":12,"id":"19","role":"metric panel: FastEmbed possible","shapeType":"roundRect","bbox":[462,404,330,174]}
+{"kind":"shape","slide":12,"id":"20","role":"metric accent: FastEmbed possible","shapeType":"rect","bbox":[462,404,330,7]}
+{"kind":"textbox","slide":12,"id":"21","role":"metric value","text":"Retrieval plus leger","textPreview":"Retrieval plus leger","textChars":20,"textLines":1,"bbox":[484,428,286,54]}
+{"kind":"textbox","slide":12,"id":"22","role":"metric label","text":"FastEmbed possible","textPreview":"FastEmbed possible","textChars":18,"textLines":1,"bbox":[486,486,282,38]}
+{"kind":"textbox","slide":12,"id":"23","role":"metric note","text":"Reduction du cout d'embedding et meilleure stabilite locale.","textPreview":"Reduction du cout d'embedding et meilleure stabilite locale.","textChars":60,"textLines":1,"bbox":[486,536,282,22]}
+{"kind":"shape","slide":12,"id":"24","role":"metric panel: Apres enrichissement","shapeType":"roundRect","bbox":[832,404,330,174]}
+{"kind":"shape","slide":12,"id":"25","role":"metric accent: Apres enrichissement","shapeType":"rect","bbox":[832,404,330,7]}
+{"kind":"textbox","slide":12,"id":"26","role":"metric value","text":"RAG pertinent","textPreview":"RAG pertinent","textChars":13,"textLines":1,"bbox":[854,428,286,54]}
+{"kind":"textbox","slide":12,"id":"27","role":"metric label","text":"Apres enrichissement","textPreview":"Apres enrichissement","textChars":20,"textLines":1,"bbox":[856,486,282,38]}
+{"kind":"textbox","slide":12,"id":"28","role":"metric note","text":"Generation utile seulement quand le contexte recuperé devient propre.","textPreview":"Generation utile seulement quand le contexte recuperé devient propre.","textChars":69,"textLines":1,"bbox":[856,536,282,22]}
+{"kind":"textbox","slide":12,"id":"29","role":"caption","text":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textPreview":"FoodSense V1 | Recherche semantique sur documents produits reconstruits","textChars":71,"textLines":1,"bbox":[64,674,840,22]}
