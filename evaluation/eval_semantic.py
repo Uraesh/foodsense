@@ -1,3 +1,4 @@
+"""Evaluate the semantic search API using a benchmark of queries and expected results."""
 from __future__ import annotations
 
 import json
@@ -14,9 +15,9 @@ if str(PROJECT_ROOT) not in sys.path:
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
-from app.main import app  # noqa: E402
-from app.services.embedding_service import warmup_embedding_model  # noqa: E402
-from eval_utils import (  # noqa: E402
+from app.main import app  
+from app.services.embedding_service import warmup_embedding_model
+from eval_utils import (
     load_benchmark,
     load_catalog_texts,
     score_results,
@@ -25,6 +26,7 @@ from eval_utils import (  # noqa: E402
 
 
 def main() -> None:
+    """Main function to run the semantic search evaluation."""
     report_path = Path(__file__).with_name("semantic_eval_report.json")
     benchmark = load_benchmark()
     catalog_texts = load_catalog_texts()
@@ -54,7 +56,9 @@ def main() -> None:
                         **result,
                         "relevant": bool(relevance),
                     }
-                    for result, relevance in zip(results[:top_k], metrics["relevances"], strict=False)
+                    for result, relevance in zip(
+                        results[:top_k], metrics["relevances"], strict=False
+                    )
                 ],
             }
         )
@@ -75,7 +79,9 @@ def main() -> None:
         }
     )
 
-    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    report_path.write_text(
+        json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     print(json.dumps(report, indent=2, ensure_ascii=False))
     print(f"Wrote {report_path}")
 

@@ -53,7 +53,9 @@ def test_search_endpoint_can_report_semantic_strategy(monkeypatch) -> None:
         ]
 
     monkeypatch.setattr("app.services.search_service.embed_query", fake_embed_query)
-    monkeypatch.setattr("app.services.search_service._hybrid_search", fake_hybrid_search)
+    monkeypatch.setattr(
+        "app.services.search_service._hybrid_search", fake_hybrid_search
+    )
 
     response = client.post("/search", json={"query": "dark chocolate", "top_k": 3})
 
@@ -87,7 +89,9 @@ def test_vector_search_uses_local_semantic_fallback(monkeypatch) -> None:
         ]
 
     monkeypatch.setattr(search_service, "_qdrant_client", fake_qdrant_client)
-    monkeypatch.setattr(search_service, "_local_vector_search", fake_local_vector_search)
+    monkeypatch.setattr(
+        search_service, "_local_vector_search", fake_local_vector_search
+    )
 
     results = search_service._vector_search([0.1, 0.2, 0.3], top_k=2, min_score=0.4)
 

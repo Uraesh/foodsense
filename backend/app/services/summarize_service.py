@@ -13,8 +13,12 @@ from app.models.product import SummaryResponse
 from app.services.cache import SummaryCache
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-PRODUCT_DOCUMENTS_PATH = PROJECT_ROOT / "data" / "processed" / "product_documents.parquet"
-SUMMARY_CACHE = SummaryCache[SummaryResponse](ttl_seconds=get_settings().summary_cache_ttl_seconds)
+PRODUCT_DOCUMENTS_PATH = (
+    PROJECT_ROOT / "data" / "processed" / "product_documents.parquet"
+)
+SUMMARY_CACHE = SummaryCache[SummaryResponse](
+    ttl_seconds=get_settings().summary_cache_ttl_seconds
+)
 
 
 def _load_product_documents() -> pl.DataFrame:
@@ -53,7 +57,11 @@ def _fallback_summary(product_id: str, row: dict[str, object]) -> SummaryRespons
     label = str(row.get("label_hint") or product_id)
     summary_samples = _normalize_list(row.get("summary_samples"))
     text_samples = _normalize_list(row.get("text_samples"))
-    snippets = [_clip_text(item, limit=140) for item in [*summary_samples, *text_samples] if item.strip()]
+    snippets = [
+        _clip_text(item, limit=140)
+        for item in [*summary_samples, *text_samples]
+        if item.strip()
+    ]
     snippets = list(dict.fromkeys(snippets))
     pros = snippets[:3]
     cons = snippets[3:5]
@@ -96,7 +104,9 @@ def _extract_json_payload(raw_text: str) -> dict[str, object] | None:
         return None
 
 
-async def _generate_llm_summary(product_id: str, row: dict[str, object]) -> SummaryResponse | None:
+async def _generate_llm_summary(
+    product_id: str, row: dict[str, object]
+) -> SummaryResponse | None:
     settings = get_settings()
     label = str(row.get("label_hint") or product_id)
     summary_samples = _normalize_list(row.get("summary_samples"))[:4]
@@ -149,8 +159,12 @@ La recommandation doit mentionner explicitement le produit correspondant `{label
         product_label=label,
         summary=str(payload.get("summary") or "").strip()
         or f"Synthese indisponible pour {label}.",
-        pros=[str(item).strip() for item in payload.get("pros", []) if str(item).strip()][:3],
-        cons=[str(item).strip() for item in payload.get("cons", []) if str(item).strip()][:3],
+        pros=[
+            str(item).strip() for item in payload.get("pros", []) if str(item).strip()
+        ][:3],
+        cons=[
+            str(item).strip() for item in payload.get("cons", []) if str(item).strip()
+        ][:3],
         recommendation=str(payload.get("recommendation") or "").strip()
         or f"Produit correspondant : {label} ({product_id}).",
         cached=False,

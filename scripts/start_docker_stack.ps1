@@ -2,6 +2,7 @@ param(
     [switch]$IncludeUI,
     [switch]$IncludeData,
     [switch]$IncludeLLM,
+    [switch]$IncludePostgres,
     [switch]$QdrantOnly,
     [switch]$NoBuild,
     [int]$WaitSeconds = 120
@@ -54,6 +55,9 @@ if (-not (Test-DockerReady)) {
 }
 
 $services = @("qdrant")
+if ($IncludePostgres) {
+    $services = @("postgres") + $services
+}
 if (-not $QdrantOnly) {
     $services += "backend"
 }
@@ -93,6 +97,9 @@ Write-Host "Current stack status:"
 
 Write-Host ""
 Write-Host "Expected endpoints:"
+if ($IncludePostgres) {
+    Write-Host "  Postgres: 127.0.0.1:5432 / database Foodsense"
+}
 Write-Host "  Qdrant:  http://127.0.0.1:6333/dashboard"
 if (-not $QdrantOnly) {
     Write-Host "  Backend: http://127.0.0.1:8000"

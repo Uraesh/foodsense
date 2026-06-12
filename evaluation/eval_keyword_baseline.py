@@ -1,3 +1,4 @@
+"""Evaluate the keyword-based lexical search strategy on the benchmark."""
 from __future__ import annotations
 
 import json
@@ -11,9 +12,9 @@ if str(PROJECT_ROOT) not in sys.path:
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
-from app.models.search import SearchRequest  # noqa: E402
-from app.services.search_service import _lexical_search  # noqa: E402
-from eval_utils import (  # noqa: E402
+from app.models.search import SearchRequest 
+from app.services.search_service import _lexical_search 
+from eval_utils import (
     load_benchmark,
     load_catalog_texts,
     score_results,
@@ -22,6 +23,7 @@ from eval_utils import (  # noqa: E402
 
 
 def main() -> None:
+    """Evaluate the keyword-based lexical search strategy on the benchmark."""
     report_path = Path(__file__).with_name("keyword_eval_report.json")
     benchmark = load_benchmark()
     catalog_texts = load_catalog_texts()
@@ -61,7 +63,9 @@ def main() -> None:
         }
     )
 
-    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    report_path.write_text(
+        json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     print(json.dumps(report, indent=2, ensure_ascii=False))
     print(f"Wrote {report_path}")
 

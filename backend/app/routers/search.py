@@ -1,3 +1,5 @@
+"""API router for handling search requests and responses."""
+from __future__ import annotations
 from fastapi import APIRouter, Query
 
 from app.models.search import SearchRequest, SearchResponse
@@ -8,6 +10,7 @@ router = APIRouter(tags=["search"])
 
 @router.post("/search", response_model=SearchResponse)
 async def search(request: SearchRequest) -> SearchResponse:
+    """Handle a search request and return a search response."""
     return await search_products(request)
 
 
@@ -18,6 +21,7 @@ async def search_get(
     min_score: float | None = Query(default=None, ge=-1.0, le=1.0),
     mode: str = Query(default="semantic", pattern="^(semantic|keyword)$"),
 ) -> SearchResponse:
+    """Handle a search request via GET parameters and return a search response."""
     return await search_products(
         SearchRequest(query=query, top_k=top_k, min_score=min_score, mode=mode)
     )

@@ -1,8 +1,12 @@
+""""Index product embeddings into Qdrant for similarity search.
+This script reads product embeddings from a Parquet file, transforms them into the format required by Qdrant, and upserts them into a specified collection. It includes
+options for batch size, collection name, and whether to recreate the collection if it already exists.
+"""
 from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
 from uuid import NAMESPACE_URL, uuid5
 
 import polars as pl
@@ -12,24 +16,36 @@ from pipeline.reviews_polars import PROCESSED_DIR
 from pipeline.utils.qdrant_client import get_qdrant_client
 
 
-def iter_points(df: pl.DataFrame) -> Iterable[PointStruct]:
+def payload_value(value: Any) -> Any:
+    """Convert a value to a JSON-serializable format for Qdrant payloads."""
+    if value is None:
+        return None
+    if isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, list):
+        return [payload_value(item) for item in value]
+    return str(value)
+
+
+def iter_points(df: pl.DataFrame, id_column: str) -> Iterable[PointStruct]:
+    """Yield PointStruct objects for Qdrant upsert from a DataFrame."""
     for row in df.iter_rows(named=True):
-        product_id = row["ProductId"]
+        product_id = str(row[id_column])
         payload = {
-            "product_id": product_id,
-            "label_hint": row.get("label_hint"),
-            "review_count": row.get("review_count"),
-            "average_score": row.get("average_score"),
-            "average_helpfulness_ratio": row.get("average_helpfulness_ratio"),
-            "first_review_at": row.get("first_review_at"),
-            "last_review_at": row.get("last_review_at"),
-            "summary_samples": row.get("summary_samples"),
-            "text_samples": row.get("text_samples"),
+            key: payload_value(value)
+            for key, value in row.items()
+            if key != "embedding"
         }
-        yield PointStruct(id=str(uuid5(NAMESPACE_URL, product_id)), vector=row["embedding"], payload=payload)
+        payload["product_id"] = product_id
+        yield PointStruct(
+            id=str(uuid5(NAMESPACE_URL, product_id)),
+            vector=row["embedding"],
+            payload=payload,
+        )
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Index embeddings into Qdrant.")
     parser.add_argument(
         "--embeddings-path",
@@ -40,6 +56,11 @@ def parse_args() -> argparse.Namespace:
         "--collection",
         default="foodsense_products",
         help="Qdrant collection name.",
+    )
+    parser.add_argument(
+        "--id-column",
+        default="ProductId",
+        help="Column containing the stable product identifier.",
     )
     parser.add_argument(
         "--recreate",
@@ -56,12 +77,18 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    """Main function to execute the indexing process."""
     args = parse_args()
     embeddings_path = Path(args.embeddings_path)
 
     df = pl.read_parquet(embeddings_path)
     if df.height == 0:
         raise SystemExit("No embeddings found to index.")
+    for required_column in (args.id_column, "embedding"):
+        if required_column not in df.columns:
+            raise SystemExit(
+                f"Missing required column in {embeddings_path}: {required_column}"
+            )
 
     vector_size = len(df["embedding"][0])
     client = get_qdrant_client()
@@ -87,7 +114,7 @@ def main() -> None:
     indexed = 0
     for start in range(0, total, batch_size):
         batch = df.slice(start, batch_size)
-        points = list(iter_points(batch))
+        points = list(iter_points(batch, args.id_column))
         client.upsert(collection_name=args.collection, points=points)
         indexed += len(points)
         pct = indexed / total * 100

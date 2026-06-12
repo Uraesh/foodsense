@@ -1,4 +1,17 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: foodsense-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-Foodsense}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-yusuke}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - ./.postgres/data:/var/lib/postgresql/data
+
   qdrant:
     image: qdrant/qdrant:latest
     container_name: foodsense-qdrant
@@ -9,6 +22,15 @@ services:
     volumes:
       - ./.qdrant/storage:/qdrant/storage
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: foodsense-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./.ollama:/root/.ollama
+
   backend:
     build:
       context: .
@@ -17,11 +39,15 @@ services:
     restart: unless-stopped
     depends_on:
       - qdrant
+      - postgres
+      - ollama
     env_file:
       - .env.example
     environment:
       QDRANT_HOST: qdrant
       QDRANT_PORT: 6333
+      POSTGRES_HOST: postgres
+      OLLAMA_HOST: http://ollama:11434
       PIP_CACHE_DIR: /workspace/.cache/pip
       PYTHONPATH: /workspace/backend
     working_dir: /workspace/backend
@@ -32,6 +58,26 @@ services:
     ports:
       - "${BACKEND_PORT:-8000}:${BACKEND_PORT:-8000}"
 
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: foodsense-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_TELEMETRY_DISABLED: "1"
+      NPM_CONFIG_CACHE: /workspace/.cache/npm
+      NEXT_PUBLIC_API_URL: http://backend:8000
+    working_dir: /workspace/frontend
+    command: sh -c "npm install && npm run dev -- --hostname 0.0.0.0 --port ${FRONTEND_PORT:-3000}"
+    volumes:
+      - ./:/workspace
+      - ./.cache/npm:/workspace/.cache/npm
+    ports:
+      - "${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}"
+
   notebook:
     build:
       context: .
@@ -41,51 +87,9 @@ services:
       - data
     env_file:
       - .env.example
-    environment:
-      PIP_CACHE_DIR: /workspace/.cache/pip
-      JUPYTER_CONFIG_DIR: /workspace/.jupyter/config
-      JUPYTER_DATA_DIR: /workspace/.jupyter/data
-      JUPYTER_RUNTIME_DIR: /workspace/.jupyter/runtime
-      IPYTHONDIR: /workspace/.ipython
-      MPLCONFIGDIR: /workspace/.cache/matplotlib
     working_dir: /workspace
-    command: >
-      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
-      --ServerApp.root_dir=/workspace
-      --ServerApp.token=${JUPYTER_TOKEN:-foodsense}
+    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --ServerApp.root_dir=/workspace --ServerApp.token=${JUPYTER_TOKEN:-foodsense}
     volumes:
       - ./:/workspace
-      - ./.cache/pip:/workspace/.cache/pip
-      - ./.jupyter:/workspace/.jupyter
-      - ./.ipython:/workspace/.ipython
     ports:
       - "8888:8888"
-
-  frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    container_name: foodsense-frontend
-    profiles:
-      - ui
-    environment:
-      NEXT_TELEMETRY_DISABLED: "1"
-      NPM_CONFIG_CACHE: /workspace/.cache/npm
-    working_dir: /workspace/frontend
-    command: sh -c "npm install && npm run dev -- --hostname 0.0.0.0 --port ${FRONTEND_PORT:-3000}"
-    volumes:
-      - ./:/workspace
-      - ./.cache/npm:/workspace/.cache/npm
-    ports:
-      - "${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}"
-
-  ollama:
-    image: ollama/ollama:latest
-    container_name: foodsense-ollama
-    profiles:
-      - llm
-    restart: unless-stopped
-    ports:
-      - "11434:11434"
-    volumes:
-      - ./.ollama:/root/.ollama

@@ -1,3 +1,4 @@
+"""Configuration management for the FoodSense backend application."""
 from functools import lru_cache
 
 from pydantic import Field, field_validator
@@ -5,6 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Application configuration settings loaded from environment variables or .env files."""
     app_name: str = "FoodSense Backend"
     backend_host: str = "0.0.0.0"
     backend_port: int = 8000
@@ -13,7 +15,7 @@ class Settings(BaseSettings):
     qdrant_port: int = 6333
     qdrant_url_override: str = Field(default="", validation_alias="QDRANT_URL")
     qdrant_api_key: str = ""
-    qdrant_collection: str = "foodsense_products_bge_m3"
+    qdrant_collection: str = "foodsense_products_v2"
     qdrant_timeout_seconds: float = 1.5
     ollama_host: str = "http://127.0.0.1:11434"
     embedding_model: str = "bge-m3"
@@ -42,6 +44,7 @@ class Settings(BaseSettings):
     @field_validator("search_score_threshold", mode="before")
     @classmethod
     def empty_threshold_to_none(cls, value):
+        """Convert empty string or None to None for search_score_threshold, allowing it to be optional."""
         if value in ("", None):
             return None
         return value
@@ -49,6 +52,7 @@ class Settings(BaseSettings):
     @field_validator("search_semantic_weight", "search_lexical_weight")
     @classmethod
     def validate_weights(cls, value: float) -> float:
+        """Ensure that search weights are between 0 and 1 to maintain a valid weighting scheme for semantic and lexical search components."""
         if not 0.0 <= value <= 1.0:
             raise ValueError("Search weights must be between 0 and 1.")
         return value
@@ -56,13 +60,17 @@ class Settings(BaseSettings):
     @field_validator("summary_strategy")
     @classmethod
     def validate_summary_strategy(cls, value: str) -> str:
+        """Validate that the summary strategy is either 'extractive' or 'ollama', ensuring that the application uses a supported summarization approach."""
         normalized = value.strip().lower()
         if normalized not in {"extractive", "ollama"}:
-            raise ValueError("SUMMARY_STRATEGY must be either 'extractive' or 'ollama'.")
+            raise ValueError(
+                "SUMMARY_STRATEGY must be either 'extractive' or 'ollama'."
+            )
         return normalized
 
     @property
     def qdrant_url(self) -> str:
+        """Construct the Qdrant URL from host and port, or use the override if provided."""
         if self.qdrant_url_override:
             return self.qdrant_url_override
         return f"http://{self.qdrant_host}:{self.qdrant_port}"

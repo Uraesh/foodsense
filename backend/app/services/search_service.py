@@ -17,7 +17,9 @@ from app.services.embedding_service import embed_query
 from app.services.rerank_service import rerank_products
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-PRODUCT_DOCUMENTS_PATH = PROJECT_ROOT / "data" / "processed" / "product_documents.parquet"
+PRODUCT_DOCUMENTS_PATH = (
+    PROJECT_ROOT / "data" / "processed" / "product_documents.parquet"
+)
 logger = logging.getLogger(__name__)
 DEFAULT_DESCRIPTION = "Produit reconstruit a partir d'avis clients agreges."
 DEFAULT_CATEGORY = "Produits"
@@ -40,8 +42,14 @@ def _load_product_documents() -> pl.DataFrame:
 
     return products.with_columns(
         [
-            pl.col("search_text").fill_null("").str.to_lowercase().alias("search_text_lower"),
-            pl.col("label_hint").fill_null("").str.to_lowercase().alias("label_hint_lower"),
+            pl.col("search_text")
+            .fill_null("")
+            .str.to_lowercase()
+            .alias("search_text_lower"),
+            pl.col("label_hint")
+            .fill_null("")
+            .str.to_lowercase()
+            .alias("label_hint_lower"),
         ]
     )
 
@@ -156,7 +164,10 @@ def _derive_category(metadata: dict[str, object] | None, title: str) -> str:
         ("Chocolats", ["chocolate", "chocolat", "cocoa", "cacao"]),
         ("Cafe", ["coffee", "cafe", "espresso", "latte"]),
         ("The et infusions", ["tea", "the", "chai", "herbal", "infusion"]),
-        ("Biscuits et snacks", ["cookie", "cracker", "snack", "bar", "pretzel", "chip", "biscuit"]),
+        (
+            "Biscuits et snacks",
+            ["cookie", "cracker", "snack", "bar", "pretzel", "chip", "biscuit"],
+        ),
         ("Croquettes", ["dog", "cat", "pet food", "treat", "puppy", "kitten"]),
         ("Boissons", ["drink", "juice", "beverage", "smoothie", "soda"]),
         ("Gateaux et desserts", ["cake", "brownie", "dessert", "pudding", "muffin"]),
@@ -183,7 +194,9 @@ def _angle_metrics_from_similarity(
     return bounded, round(angle_degrees, 2), relevance_percent
 
 
-def _fallback_relevance_percent(score: float, reference_score: float | None = None) -> int:
+def _fallback_relevance_percent(
+    score: float, reference_score: float | None = None
+) -> int:
     reference = reference_score if reference_score and reference_score > 0 else score
     if reference <= 0:
         return 0
@@ -201,8 +214,8 @@ def _build_product_result(
     semantic_similarity: float | None = None,
     relevance_percent_override: int | None = None,
 ) -> ProductResult:
-    bounded_similarity, angle_degrees, relevance_percent = _angle_metrics_from_similarity(
-        semantic_similarity
+    bounded_similarity, angle_degrees, relevance_percent = (
+        _angle_metrics_from_similarity(semantic_similarity)
     )
     if relevance_percent is None:
         relevance_percent = relevance_percent_override
@@ -230,7 +243,8 @@ def _resolve_local_embeddings_path() -> Path:
     settings = get_settings()
     processed_dir = PROJECT_ROOT / "data" / "processed"
     candidates = [
-        processed_dir / f"product_embeddings_{_model_suffix(settings.embedding_model)}.parquet",
+        processed_dir
+        / f"product_embeddings_{_model_suffix(settings.embedding_model)}.parquet",
         processed_dir / "product_embeddings_bge_m3.parquet",
         processed_dir / "product_embeddings.parquet",
     ]
@@ -260,7 +274,9 @@ def _load_local_embeddings() -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
     for row in frame.to_dicts():
         vector = [float(value) for value in row.get("embedding") or []]
-        vector_norm = math.sqrt(sum(value * value for value in vector)) if vector else 0.0
+        vector_norm = (
+            math.sqrt(sum(value * value for value in vector)) if vector else 0.0
+        )
         rows.append(
             {
                 "ProductId": row["ProductId"],
@@ -278,10 +294,7 @@ def _load_local_embeddings() -> list[dict[str, object]]:
 
 @lru_cache
 def _local_embedding_map() -> dict[str, dict[str, object]]:
-    return {
-        str(row["ProductId"]): row
-        for row in _load_local_embeddings()
-    }
+    return {str(row["ProductId"]): row for row in _load_local_embeddings()}
 
 
 @lru_cache
@@ -297,7 +310,9 @@ def _load_search_products() -> pl.DataFrame:
     return products
 
 
-def _cosine_similarity_from_row(query_vector: list[float], row: dict[str, object]) -> float | None:
+def _cosine_similarity_from_row(
+    query_vector: list[float], row: dict[str, object]
+) -> float | None:
     vector = row.get("embedding") or []
     vector_norm = float(row.get("vector_norm") or 0.0)
     if not vector or vector_norm == 0.0:
@@ -309,7 +324,9 @@ def _cosine_similarity_from_row(query_vector: list[float], row: dict[str, object
     return float(dot_product / (query_norm * vector_norm))
 
 
-def _build_lexical_ranking(query: str, products: pl.DataFrame | None = None) -> pl.DataFrame:
+def _build_lexical_ranking(
+    query: str, products: pl.DataFrame | None = None
+) -> pl.DataFrame:
     query_text = query.strip().lower()
     if not query_text:
         return _empty_lexical_frame()
@@ -321,7 +338,8 @@ def _build_lexical_ranking(query: str, products: pl.DataFrame | None = None) -> 
     query_terms = [term for term in query_text.split() if term.strip()]
     score_expr = (
         pl.col("search_text_lower").str.count_matches(query_text).cast(pl.Float64) * 3.0
-        + pl.col("label_hint_lower").str.count_matches(query_text).cast(pl.Float64) * 5.0
+        + pl.col("label_hint_lower").str.count_matches(query_text).cast(pl.Float64)
+        * 5.0
     )
     for term in query_terms:
         score_expr = score_expr + (
@@ -346,7 +364,9 @@ def _score_to_map(frame: pl.DataFrame, score_column: str) -> dict[str, float]:
     }
 
 
-def _metadata_by_product(products: pl.DataFrame, product_ids: list[str]) -> dict[str, dict[str, object]]:
+def _metadata_by_product(
+    products: pl.DataFrame, product_ids: list[str]
+) -> dict[str, dict[str, object]]:
     if not product_ids:
         return {}
     return {
@@ -512,7 +532,9 @@ def _hybrid_search(
         )
         for result in semantic_results
     }
-    candidate_ids = list(dict.fromkeys([*semantic_scores.keys(), *lexical_scores.keys()]))
+    candidate_ids = list(
+        dict.fromkeys([*semantic_scores.keys(), *lexical_scores.keys()])
+    )
     metadata_map = _metadata_by_product(products, candidate_ids)
     embedding_map = _local_embedding_map()
 
@@ -543,7 +565,12 @@ def _hybrid_search(
         lexical_score = lexical_scores.get(product_id, 0.0)
         semantic_norm = semantic_score / semantic_max if semantic_max else 0.0
         lexical_norm = lexical_score / lexical_max if lexical_max else 0.0
-        exact_phrase_bonus = 0.08 if query_text and (query_text in title_lower or query_text in search_text_lower) else 0.0
+        exact_phrase_bonus = (
+            0.08
+            if query_text
+            and (query_text in title_lower or query_text in search_text_lower)
+            else 0.0
+        )
         rating_boost = min(average_score / 5.0, 1.0) * 0.02
         review_boost = min(math.log1p(review_count) / 5.0, 1.0) * 0.03
 
@@ -578,7 +605,9 @@ def _hybrid_search(
         if result.relevance_percent is None:
             result = result.model_copy(
                 update={
-                    "relevance_percent": _fallback_relevance_percent(result.score, max_score)
+                    "relevance_percent": _fallback_relevance_percent(
+                        result.score, max_score
+                    )
                 }
             )
         adjusted_results.append(result)
@@ -589,7 +618,11 @@ async def search_products(request: SearchRequest) -> SearchResponse:
     started_at = perf_counter()
     settings = get_settings()
     top_k = request.top_k or settings.search_top_k
-    min_score = request.min_score if request.min_score is not None else settings.search_score_threshold
+    min_score = (
+        request.min_score
+        if request.min_score is not None
+        else settings.search_score_threshold
+    )
     strategy = "semantic_hybrid"
     warning = None
     total_indexed = _indexed_product_count()

@@ -7,3 +7,4 @@ ipykernel==7.2.0
 nbconvert==7.17.0
 matplotlib==3.10.8
 seaborn==0.13.2
+psycopg[binary]>=3.2,<4

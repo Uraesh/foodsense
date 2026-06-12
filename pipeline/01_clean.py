@@ -1,9 +1,11 @@
+"""Clean reviews data and export to Parquet."""
 from __future__ import annotations
 
 from pipeline.reviews_polars import RAW_DATA_PATH, PROCESSED_DIR, cleaned_reviews_lazy
 
 
 def main() -> None:
+    """Main function to clean reviews and export to Parquet."""
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     output_path = PROCESSED_DIR / "reviews_cleaned.parquet"
     cleaned_reviews = cleaned_reviews_lazy(RAW_DATA_PATH).collect(engine="streaming")

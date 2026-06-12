@@ -83,7 +83,10 @@ def cleaned_reviews_lazy(csv_path: Path = RAW_DATA_PATH) -> pl.LazyFrame:
                 .otherwise(None)
                 .cast(pl.Float32)
                 .alias("helpfulness_ratio"),
-                pl.col("Summary").str.len_chars().cast(pl.Int32).alias("summary_length"),
+                pl.col("Summary")
+                .str.len_chars()
+                .cast(pl.Int32)
+                .alias("summary_length"),
                 pl.col("Text").str.len_chars().cast(pl.Int32).alias("text_length"),
                 pl.when(pl.col("Summary") != "")
                 .then(pl.concat_str([pl.col("Summary"), pl.lit(". "), pl.col("Text")]))
@@ -94,12 +97,11 @@ def cleaned_reviews_lazy(csv_path: Path = RAW_DATA_PATH) -> pl.LazyFrame:
     )
 
 
-def build_quality_report(cleaned_reviews: pl.DataFrame, raw_row_count: int) -> dict[str, object]:
+def build_quality_report(
+    cleaned_reviews: pl.DataFrame, raw_row_count: int
+) -> dict[str, object]:
     score_distribution = (
-        cleaned_reviews.group_by("Score")
-        .len()
-        .sort("Score")
-        .to_dicts()
+        cleaned_reviews.group_by("Score").len().sort("Score").to_dicts()
     )
 
     reviews_per_product = cleaned_reviews.group_by("ProductId").len()["len"]
@@ -136,8 +138,12 @@ def build_quality_report(cleaned_reviews: pl.DataFrame, raw_row_count: int) -> d
         "zero_helpfulness_denominator": cleaned_reviews.filter(
             pl.col("HelpfulnessDenominator") == 0
         ).height,
-        "short_reviews_under_80_chars": cleaned_reviews.filter(pl.col("text_length") < 80).height,
-        "long_reviews_over_1500_chars": cleaned_reviews.filter(pl.col("text_length") > 1500).height,
+        "short_reviews_under_80_chars": cleaned_reviews.filter(
+            pl.col("text_length") < 80
+        ).height,
+        "long_reviews_over_1500_chars": cleaned_reviews.filter(
+            pl.col("text_length") > 1500
+        ).height,
         "reviews_per_product": {
             "median": int(reviews_per_product.median()),
             "p90": int(reviews_per_product.quantile(0.9, interpolation="nearest")),
@@ -146,7 +152,9 @@ def build_quality_report(cleaned_reviews: pl.DataFrame, raw_row_count: int) -> d
         },
         "text_length_quantiles": {key: int(value) for key, value in quantiles.items()},
         "year_distribution": (
-            cleaned_reviews.with_columns(pl.col("review_timestamp").dt.year().alias("year"))
+            cleaned_reviews.with_columns(
+                pl.col("review_timestamp").dt.year().alias("year")
+            )
             .group_by("year")
             .len()
             .sort("year")
@@ -157,7 +165,13 @@ def build_quality_report(cleaned_reviews: pl.DataFrame, raw_row_count: int) -> d
 
 def build_product_documents(cleaned_reviews: pl.DataFrame) -> pl.DataFrame:
     ranked = cleaned_reviews.sort(
-        ["ProductId", "HelpfulnessDenominator", "HelpfulnessNumerator", "Score", "text_length"],
+        [
+            "ProductId",
+            "HelpfulnessDenominator",
+            "HelpfulnessNumerator",
+            "Score",
+            "text_length",
+        ],
         descending=[False, True, True, True, True],
     )
 
@@ -167,10 +181,25 @@ def build_product_documents(cleaned_reviews: pl.DataFrame) -> pl.DataFrame:
             pl.col("Score").mean().round(2).cast(pl.Float32).alias("average_score"),
             pl.col("review_timestamp").min().alias("first_review_at"),
             pl.col("review_timestamp").max().alias("last_review_at"),
-            pl.col("Summary").filter(pl.col("Summary") != "").first().alias("label_hint"),
-            pl.col("Summary").filter(pl.col("Summary") != "").head(6).alias("summary_samples"),
-            pl.col("Text").filter(pl.col("Text") != "").str.slice(0, 280).head(8).alias("text_samples"),
-            pl.col("helpfulness_ratio").drop_nulls().mean().round(3).cast(pl.Float32).alias("average_helpfulness_ratio"),
+            pl.col("Summary")
+            .filter(pl.col("Summary") != "")
+            .first()
+            .alias("label_hint"),
+            pl.col("Summary")
+            .filter(pl.col("Summary") != "")
+            .head(6)
+            .alias("summary_samples"),
+            pl.col("Text")
+            .filter(pl.col("Text") != "")
+            .str.slice(0, 280)
+            .head(8)
+            .alias("text_samples"),
+            pl.col("helpfulness_ratio")
+            .drop_nulls()
+            .mean()
+            .round(3)
+            .cast(pl.Float32)
+            .alias("average_helpfulness_ratio"),
         ]
     )
 
@@ -220,7 +249,9 @@ def write_pipeline_outputs(
     processed_dir.mkdir(parents=True, exist_ok=True)
     samples_dir.mkdir(parents=True, exist_ok=True)
 
-    raw_row_count = scan_reviews(csv_path).select(pl.len().alias("row_count")).collect().item()
+    raw_row_count = (
+        scan_reviews(csv_path).select(pl.len().alias("row_count")).collect().item()
+    )
     cleaned_reviews = cleaned_reviews_lazy(csv_path).collect(engine="streaming")
     product_documents = build_product_documents(cleaned_reviews)
     quality_report = build_quality_report(cleaned_reviews, raw_row_count)
@@ -241,7 +272,9 @@ def write_pipeline_outputs(
     product_documents.write_parquet(product_documents_path)
     cleaned_reviews.head(1000).write_parquet(sample_reviews_path)
     product_documents.head(250).write_parquet(sample_products_path)
-    quality_report_path.write_text(json.dumps(quality_report, indent=2), encoding="utf-8")
+    quality_report_path.write_text(
+        json.dumps(quality_report, indent=2), encoding="utf-8"
+    )
 
     return {
         "cleaned_reviews": cleaned_reviews_path,
@@ -254,7 +287,9 @@ def write_pipeline_outputs(
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Clean and explore Amazon Fine Food Reviews with Polars.")
+    parser = argparse.ArgumentParser(
+        description="Clean and explore Amazon Fine Food Reviews with Polars."
+    )
     parser.add_argument(
         "--csv-path",
         type=Path,

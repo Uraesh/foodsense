@@ -78,6 +78,7 @@ Variables importantes :
 - `QDRANT_URL`, `QDRANT_API_KEY` : acces Qdrant Cloud
 - `OLLAMA_HOST` : endpoint Ollama
 - `EMBEDDING_MODEL` : modele d'embedding, actuellement `bge-m3`
+- `QDRANT_COLLECTION` : collection Qdrant par defaut, actuellement `foodsense_products_v2`
 - `SUMMARY_MODEL` : modele LLM de resume
 - `SUMMARY_STRATEGY` : `extractive` ou `ollama`
 - `OLLAMA_KEEP_ALIVE` : duree de maintien en memoire des modeles
@@ -99,6 +100,8 @@ Demarrage standard :
 ```powershell
 .\scripts\start_ollama.ps1
 ```
+
+..\.venv\Scripts\python.exe
 
 Demarrage plus sobre en ressources :
 
@@ -181,6 +184,7 @@ Le code supporte deja Qdrant Cloud. Pour l'activer, renseigner :
 - `QDRANT_API_KEY`
 
 Le backend et le pipeline basculeront alors vers cette cible sans changer le code metier.
+Pour revenir a la V1 sans modifier le code, redefinir `QDRANT_COLLECTION=foodsense_products_bge_m3`.
 
 ## Evaluation
 

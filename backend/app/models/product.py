@@ -1,12 +1,17 @@
+"""Data models for product search results and summary responses."""
+from __future__ import annotations
 from pydantic import BaseModel, Field
 
 
 class ProductResult(BaseModel):
+    """Represents a product search result with relevant metadata and scoring information."""
     product_id: str = Field(..., description="Unique product identifier")
     title: str = Field(..., description="User-facing product title or inferred label")
     score: float = Field(..., description="Search relevance score")
     avg_rating: float = Field(..., description="Average review rating")
-    nb_reviews: int = Field(..., description="Number of reviews aggregated for the product")
+    nb_reviews: int = Field(
+        ..., description="Number of reviews aggregated for the product"
+    )
     description: str = Field(
         default="",
         description="Short customer-facing description inferred from review snippets",
@@ -34,6 +39,7 @@ class ProductResult(BaseModel):
 
 
 class SummaryResponse(BaseModel):
+    """Represents a summary response for a product with key insights and recommendations."""
     product_id: str
     product_label: str = ""
     summary: str
