@@ -47,7 +47,7 @@ frontend/
 │   ├── AboutResults.tsx
 │   └── Pagination.tsx
 ├── lib/
-│   └── data.ts           # données mock + filtres
+│   └── data.ts           
 └── public/
     └── logo.png
 ```
