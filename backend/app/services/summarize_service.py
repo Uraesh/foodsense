@@ -172,7 +172,7 @@ La recommandation doit mentionner explicitement le produit correspondant `{label
     )
 
 
-async def summarize_product(product_id: str) -\u003e SummaryResponse:
+async def summarize_product(product_id: str) -> SummaryResponse:
     cached = SUMMARY_CACHE.get(product_id)
     if cached is not None:    
         return cached
