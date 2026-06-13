@@ -172,10 +172,10 @@ La recommandation doit mentionner explicitement le produit correspondant `{label
     )
 
 
-async def summarize_product(product_id: str) -> SummaryResponse:
+async def summarize_product(product_id: str) -\u003e SummaryResponse:
     cached = SUMMARY_CACHE.get(product_id)
-    if cached is not None:
-        return SummaryResponse(**cached.model_dump(), cached=True)
+    if cached is not None:    
+        return cached
 
     settings = get_settings()
     products = _load_product_documents()
@@ -201,5 +201,6 @@ async def summarize_product(product_id: str) -> SummaryResponse:
         response = await _generate_llm_summary(product_id, row)
     if response is None:
         response = _fallback_summary(product_id, row)
+
     SUMMARY_CACHE.set(product_id, response)
     return response
