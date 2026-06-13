@@ -28,7 +28,11 @@ def payload_value(value: Any) -> Any:
 
 
 def iter_points(df: pl.DataFrame, id_column: str) -> Iterable[PointStruct]:
-    """Yield PointStruct objects for Qdrant upsert from a DataFrame."""
+    """Yield PointStruct objects for Qdrant upsert from a DataFrame.
+    
+    Extracts product name from search_text, label_hint, or product_name columns
+    and ensures it is always present in the payload for display in search results.
+    """
     for row in df.iter_rows(named=True):
         product_id = str(row[id_column])
         payload = {
@@ -37,6 +41,21 @@ def iter_points(df: pl.DataFrame, id_column: str) -> Iterable[PointStruct]:
             if key != "embedding"
         }
         payload["product_id"] = product_id
+        
+        # Extract product name from available columns (priority: product_name > label_hint > first line of search_text)
+        product_name = None
+        if "product_name" in row and row["product_name"]:
+            product_name = str(row["product_name"]).strip()
+        elif "label_hint" in row and row["label_hint"]:
+            product_name = str(row["label_hint"]).strip()
+        elif "search_text" in row and row["search_text"]:
+            first_line = str(row["search_text"]).split("\n")[0].strip()
+            if first_line:
+                product_name = first_line
+        
+        # Ensure product_name is always present (fallback to product_id if needed)
+        payload["product_name"] = product_name if product_name else product_id
+        
         yield PointStruct(
             id=str(uuid5(NAMESPACE_URL, product_id)),
             vector=row["embedding"],
@@ -47,10 +66,17 @@ def iter_points(df: pl.DataFrame, id_column: str) -> Iterable[PointStruct]:
 def parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Index embeddings into Qdrant.")
+    
+    # Prefer v2 embeddings file if available
+    default_embeddings_path = str(PROCESSED_DIR / "product_embeddings.parquet")
+    v2_candidates = sorted(PROCESSED_DIR.glob("*embeddings*v2*.parquet"))
+    if v2_candidates:
+        default_embeddings_path = str(v2_candidates[0])
+    
     parser.add_argument(
         "--embeddings-path",
-        default=str(PROCESSED_DIR / "product_embeddings.parquet"),
-        help="Path to the embeddings parquet file.",
+        default=default_embeddings_path,
+        help="Path to the embeddings parquet file (prefers v2 if available).",
     )
     parser.add_argument(
         "--collection",

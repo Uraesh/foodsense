@@ -310,6 +310,7 @@ def _load_local_embeddings() -> list[dict[str, object]]:
 
     available_columns = [
         id_column,
+        "product_name",
         "label_hint",
         "review_count",
         "average_score",
@@ -326,9 +327,19 @@ def _load_local_embeddings() -> list[dict[str, object]]:
         vector_norm = (
             math.sqrt(sum(value * value for value in vector)) if vector else 0.0
         )
+        # Extract product name from available sources (priority: product_name > label_hint > first line of search_text)
+        product_name = None
+        if row.get("product_name"):
+            product_name = str(row.get("product_name"))
+        elif row.get("label_hint"):
+            product_name = str(row.get("label_hint"))
+        elif row.get("search_text"):
+            product_name = str(row.get("search_text")).split("\n")[0].strip()
+        
         rows.append(
             {
                 "ProductId": row.get(id_column),
+                "product_name": product_name,
                 "label_hint": row.get("label_hint") or row.get("search_text"),
                 "review_count": int(row.get("review_count") or 0),
                 "average_score": float(row.get("average_score") or 0.0),
@@ -441,7 +452,7 @@ def _lexical_search(request: SearchRequest, top_k: int) -> list[ProductResult]:
     return [
         _build_product_result(
             product_id=row["ProductId"],
-            title=row.get("label_hint") or row["ProductId"],
+            title=str(row.get("product_name") or row.get("label_hint") or row["ProductId"]),
             score=float(row["lexical_score"]),
             avg_rating=float(row.get("average_score") or 0.0),
             nb_reviews=int(row.get("review_count") or 0),
@@ -496,10 +507,13 @@ def _local_vector_search(
         score = dot_product / (query_norm * vector_norm)
         if min_score is not None and score < min_score:
             continue
+        product_id = str(row["ProductId"])
+        # Use product_name if available, fallback to label_hint then product_id
+        title = str(row.get("product_name") or row.get("label_hint") or product_id)
         scored_results.append(
             _build_product_result(
-                product_id=str(row["ProductId"]),
-                title=str(row.get("label_hint") or row["ProductId"]),
+                product_id=product_id,
+                title=title,
                 score=float(score),
                 avg_rating=float(row.get("average_score") or 0.0),
                 nb_reviews=int(row.get("review_count") or 0),
@@ -535,10 +549,12 @@ def _vector_search(
         for point in response.points:
             payload = point.payload or {}
             product_id = str(payload.get("product_id") or point.id)
+            # Use product_name from payload (set during indexing), fallback to label_hint then product_id
+            title = str(payload.get("product_name") or payload.get("label_hint") or product_id)
             results.append(
                 _build_product_result(
                     product_id=product_id,
-                    title=str(payload.get("label_hint") or product_id),
+                    title=title,
                     score=float(point.score or 0.0),
                     avg_rating=float(payload.get("average_score") or 0.0),
                     nb_reviews=int(payload.get("review_count") or 0),
